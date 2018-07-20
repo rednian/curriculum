@@ -16,7 +16,7 @@
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                 <input onkeyup="searchCurriculum($(this).val())" type="text" class="form-control">
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -50,6 +50,4 @@
         </div>
     </div>
 </div>
-
-
 <!-- MODAL -->

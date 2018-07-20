@@ -41,27 +41,27 @@
 
 
 
-  var User = Backbone.Model.extend({
-    defaults:{
-    // name:'',
-    // usern    ame:'',
-    // id:'',
-    department:''
-    // user_id:'',
-    // username:'',
-    // password:'',
-    // firstname:'',
-    // middlename:'',
-    // lastname:'',
-    // department:'',
-    // position:'',
-    // status:'',
-    // image:'',
-    // dep_id:'',
-    // user_type_id:''
-    },
-    url:'cpanel/userList'
-  });
+  // var User = Backbone.Model.extend({
+  //   defaults:{
+  //   // name:'',
+  //   // usern    ame:'',
+  //   // id:'',
+  //   department:''
+  //   // user_id:'',
+  //   // username:'',
+  //   // password:'',
+  //   // firstname:'',
+  //   // middlename:'',
+  //   // lastname:'',
+  //   // department:'',
+  //   // position:'',
+  //   // status:'',
+  //   // image:'',
+  //   // dep_id:'',
+  //   // user_type_id:''
+  //   },
+  //   url:'cpanel/userList'
+  // });
 
   // console.log(User);
 

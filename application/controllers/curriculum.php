@@ -262,7 +262,7 @@ class Curriculum extends MY_Controller
                                     </tr>
                                 </thead>
                                 <tbody>";
-                $query = $ys->db->query("SELECT * FROM subject,cur_subject WHERE cur_subject.ys_id = {$value->ys_id} AND cur_subject.subj_id = subject.subj_id");
+                $query = $ys->db->query("SELECT * FROM subject,cur_subject WHERE cur_subject.ys_id = {$value->ys_id} AND cur_subject.subj_id = subject.subj_id ");
                 $result = $query->result();
 
                 foreach ($result as $key1 => $value1) {
@@ -272,13 +272,13 @@ class Curriculum extends MY_Controller
 									                <td>
 									                    <select onchange=\"setNameSelect2($(this).closest('tr').find('td select.js-example-basic-multiple').attr('name', 'subj_'+$(this).val()+'[]'))\" name='ys_" . str_replace(' ',
                             '', $value->year . "-" . $value->semister) . "_sub_id[]' required class=\"preview-select-title\">
-									                    	<option class='hide' selected value='" . $value1->subj_id . "'>" . $value1->subj_name . "</option>";
+									                    	<option class='hide' selected value='" . $value1->subj_id . "'>" .$value1->subj_name . "</option>";
 
                     $subject = new Subject;
-                    $query = $subject->db->query("SELECT * FROM subject");
+                    $query = $subject->db->query("SELECT * FROM subject ORDER BY subject.subj_name ASC");
                     $sub = $query->result();
                     foreach ($sub as $key2 => $value2) {
-                        $display .= "<option value='" . $value2->subj_id . "'>" . $value2->subj_name . "</option>";
+                        $display .= "<option value='" . $value2->subj_id . "'>" .$value2->subj_code.' - '. $value2->subj_name . "</option>";
                     }
                     $display .= "</select>
 									                </td>
@@ -289,7 +289,7 @@ class Curriculum extends MY_Controller
 									                	<select name='subj_" . $value1->subj_id . "[]' placeholder='Select Pre-requisites' style='outline:none;border:none' class=\"form-control js-example-basic-multiple\" multiple=\"multiple\">";
 
                     $subject = new Subject;
-                    $query = $subject->db->query("SELECT * FROM subject");
+                    $query = $subject->db->query("SELECT * FROM subject ORDER BY subject.subj_name ASC");
                     $sub = $query->result();
 
                     // GET PREREQUISITES //
