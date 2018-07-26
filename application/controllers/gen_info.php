@@ -249,10 +249,10 @@ class Gen_info extends MY_Controller
   }
 
   public function subjectSave(){
-    $this->form_validation->set_rules('subj_code', 'Subject Code', 'required|is_unique[subject.subj_code]',
-      array('required' => 'You must provide a %s.', 'is_unique' => '%s already exist.'));
-    $this->form_validation->set_rules('subj_name', 'Subject Name', 'required|is_unique[subject.subj_name]',
-      array('required' => 'You must provide a %s.', 'is_unique' => '%s already exist.'));
+//    $this->form_validation->set_rules('subj_code', 'Subject Code',
+//      array('required' => 'You must provide a %s.',));
+//    $this->form_validation->set_rules('subj_name', 'Subject Name', 'required',
+//      array('required' => 'You must provide a %s.'));
     $this->form_validation->set_rules('lab_unit', 'Laboratory Unit', 'required|is_natural',
       array('required' => 'You must provide a %s.'));
     $this->form_validation->set_rules('lab_hour', 'Laboratory no of hours', 'required|is_natural',

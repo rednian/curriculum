@@ -204,11 +204,11 @@
               <input type="hidden" name="subj_id">
               <div class="form-group m-b-5">
                 <label>Code</label>
-                <input autofocus data-parsley-required="true" name="subj_code" id="subj_code" type="text" class="form-control input-sm" autocomplete="off">
+                <input autofocus data-parsley-required="false" name="subj_code" id="subj_code" type="text" class="form-control input-sm" autocomplete="off">
               </div>
               <div class="form-group m-b-5">
                 <label>Name</label>
-                <input id="subject-name" data-parsley-required="true" name="subj_name" list="subject-list" " class="form-control input-sm" autocomplete="off">
+                <input id="subject-name" data-parsley-required="false" name="subj_name" list="subject-list" " class="form-control input-sm" autocomplete="off">
                 <datalist id="subject-list"></datalist>
               </div>
               <div class="form-group m-b-5">
