@@ -1,40 +1,5 @@
 <script type="text/javascript">
 
-    $(function() {
-      window.App = {};
-      window.template = function(id) {
-        return _.template($('#'+));
-      };
-    })();
-    
-    $(function() {
-      var User = Backbone.Model.extend({});
-
-      var UserView = Backbone.View.extend({
-        initialize: function() {
-          this.render();
-        },
-
-        render: function() {
-
-        }
-      });
-
-      var UserCollection = Backbone.Collection.extend({
-        model: User
-      });
-
-      var UserViewCollection = Backbone.View.extend({
-        tagName :'ul',
-
-        render: function() {
-
-        }
-      });
-
-      var UsersView = new UserViewCollection({collection: UserCollection });
-    });
-
   $(document).ready(function () {
     load_user();
     //user account tab
@@ -96,6 +61,8 @@
       ]
     });
   }
+
+
 
   $(document).ready(function () {
 

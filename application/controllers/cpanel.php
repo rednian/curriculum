@@ -32,9 +32,6 @@ class Cpanel extends MY_Controller
     $data['title'] = 'C-Panel';
 
 
-
-
-
     $this->load->view('includes/header', $data);
     $this->load->view('includes/menu');
     $this->load->view('cpanel/css');
@@ -42,7 +39,11 @@ class Cpanel extends MY_Controller
     $this->load->view('includes/footer');
     $this->load->view('includes/js');
     $this->load->view('cpanel/js');
+    $this->load->view('cpanel/backbone');
 
+  }
+  public function hello(){
+      echo 'hello';
   }
 
   public function department(){
@@ -124,7 +125,7 @@ class Cpanel extends MY_Controller
       // 'draw'=> (int)$this->input->get('draw'),
       // 'recordsTotal'=> count($user->get_all_data()),
       // 'recordsFiltered'=>count($data),
-      'data' => $data,
+   'data'=>$data
     );
 
     echo json_encode($result_set);
