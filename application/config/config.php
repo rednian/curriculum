@@ -377,7 +377,7 @@ $config['sess_cookie_name'] = 'ci_sessions';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = 'ci_sessions';
 $config['sess_match_ip'] = true;
-$config['sess_time_to_update'] = 18000;
+$config['sess_time_to_update'] = 100;
 $config['sess_regenerate_destroy'] = true;
 
 /*

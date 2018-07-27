@@ -13,20 +13,13 @@
 			
 			$user = new User;
 			// CHECK FROM DATABASE
-			$searchData = array(
-						 "username"=>$username,
-						 "user_status"=>"active"
-						 );
-
+			$searchData = array("username"=>$username, "user_status"=>"active");
 			$search = $user->search($searchData);
+
 			if(!empty($search)){
-				//GET USER DATA
 				foreach ($search as $key => $value) {
 					if($password == doDecrypt($value->password)){
-						$sess_array = array(
-							         'id' => $value->user_id,
-							         'name' => $value->fullName('f l')
-							       	);
+						$sess_array = array( 'id' => $value->user_id, 'name' => $value->fullName('f l') );
 						// SET SESSION
 						$this->setUserSession($sess_array);
 						// REDIRECT 
@@ -43,28 +36,30 @@
 		}
 
 		private function setUserSession($sess_array){
-       		set_session('CURRICULUM_logged', $sess_array);
+            $this->session->set_userdata('CURRICULUM_logged', $sess_array);
 		}
 
 		private function redirectUser(){
-			if (get_session('CURRICULUM_logged')) {
+			if ( $this->session->userdata('CURRICULUM_logged')) {
 				redirect('gen_info' , 'refresh');
 	      	}
 		}
 		
 		public function whoseLogged(){
-			if (get_session('CURRICULUM_logged')) {
+			if ( $this->session->userdata('CURRICULUM_logged')) {
 				$user = new User;
-				$login_session = get_session('CURRICULUM_logged');
+				$login_session =  $this->session->userdata('CURRICULUM_logged');
 				return $user->get_user(array("user_id"=>$login_session['id']));
 			}
 			return false;	
 		}
 
 		public function logout(){
-			delete_session("CURRICULUM_logged");
-			delete_session("session_token");
-			destroy_session();
+            $this->session->unset_userdata('CURRICULUM_logged');
+            $this->session->sess_destroy();
+//			delete_session("CURRICULUM_logged");
+//			delete_session("session_token");
+//			destroy_session();
 		   	redirect("login", "refresh");
 		}
 

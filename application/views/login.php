@@ -59,13 +59,16 @@
 
                     <img class="img pull-right m-b-10" style="width:60%" src="<?php echo base_url('assets/img/web/login-logo.fw.png') ?>">
                 </div>
-                <?php echo form_open('login/verifyLogin'); ?>
-                 <div class="form-group m-b-5">
+                <?php if (!empty(validation_errors())): ?>
+                    <?php echo validation_errors('<div class="danger text-center" style="color: #761c19;margin-bottom: 2%">', '</div>'); ?>
+                <?php endif; ?>
+                <?php echo form_open('login/verifyLogin', 'class="form"'); ?>
+                 <div class="form-group m-b-5 has-error">
                         <div class="input-group">
                             <span class="input-group-addon" style="background:#154360;color:#fff">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input autofocus required name="username" type="text" style="color:#333" class="form-control bg-white" placeholder="Username" autocomplete="off" />
+                            <input autofocus value="<?php echo set_value('username'); ?>" name="username" type="text" style="color:#333" class="form-control bg-white" placeholder="Username" autocomplete="off" />
                         </div>
                     </div>
                     <div class="form-group m-b-5">
@@ -73,28 +76,14 @@
                             <span class="input-group-addon" style="background:#154360;color:#fff">
                                 <i class="fa fa-lock"></i>
                             </span>
-                            <input autocomplete="off" required name="password" type="password" style="color:#333" class="form-control bg-white" placeholder="Password"/>
+                            <input autocomplete="off"  name="password" type="password" style="color:#333" class="form-control bg-white" placeholder="Password"/>
                         </div>
                     </div>
 
                     <div class="login-buttons clearfix">
                         <button style="background:#154360;border-color:#154360;width:100px" type="submit" class="btn btn-success pull-right m-t-15">Login</button>
                     </div>
-                    <?php
-                    if(isset($_SESSION['CURRICULUM_login_result'])){
-                        $login_session = get_session('CURRICULUM_login_result');
-                        if($login_session['result'] === false){
-                    ?>
-                        <div class="alert alert-danger fade in m-t-20">
-                            <strong>Error Login!</strong>
-                            Invalid username or password.
-                            <span class="close" data-dismiss="alert">&times;</span>
-                        </div>
-                    <?php
-                        delete_session("CURRICULUM_login_result");
-                        }
-                    }
-                    ?>
+
                     <center class="m-t-20"><small>Copyright &copy; <?php echo date('Y') ?> EngTech Global Solutions Inc.</small></center>
                 <!-- </form> -->
                 <?php echo form_close(); ?>
