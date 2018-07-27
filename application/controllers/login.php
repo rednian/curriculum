@@ -12,40 +12,35 @@ class Login extends CI_Controller
 
     public function index()
     {
-        $auth = new Auth;
-        $data['token'] = $auth->generateToken();
-
-        $this->load->view('login', $data);
-
-        if (get_session('CURRICULUM_logged')) { 
-            $login_session = get_session('CURRICULUM_logged');
+        if (!$this->session->set_userdata('CURRICULUM_login_result')) {
+            $this->load->view('login');
+        } else {
             redirect('gen_info', 'refresh');
         }
     }
 
     public function verifyLogin()
     {
-        $auth = new Auth;
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
 
-        $username = $this->security->xss_clean(escape_str($this->input->post('username')));
-
-        $password = $this->security->xss_clean(escape_str($this->input->post('password')));
-        
-        $token = $this->security->xss_clean(escape_str($this->input->post('csrf_token')));
-
-        // VALIDATE TOKEN
-        if ($auth->validateToken($token)) {
+        if ($this->form_validation->run() == false) {
+            $this->load->view('login');
+        } else {
+            $auth = new Auth;
+            $username = $this->security->xss_clean(escape_str($this->input->post('username')));
+            $password = $this->security->xss_clean(escape_str($this->input->post('password')));
             //check user
             if ($auth->checkUser($username, $password) == false) {
                 $sess_login = array(
                     "result" => false
                 );
-                set_session('CURRICULUM_login_result', $sess_login);
-                redirect('login', 'refresh');
+                $this->session->set_userdata('CURRICULUM_login_result');
+                $this->load->view('login');
             }
-        } else {
-            show_404();
         }
+
+
     }
 
     public function logout()
