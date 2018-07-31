@@ -55,11 +55,9 @@
 
     });
 
-
   function searchSubject(key) {
     tblSubjectList.fnFilter(key);
   }
-
 
   function setCurriculumSched() {
     if ($("#setSchedModal input#ownsectioncode").val() == "") {

@@ -12,6 +12,8 @@ class Curriculum extends MY_Controller
         $this->load->model('Subject');
         $this->load->model('Cur_subject');
         $this->load->model('Pre_requisite');
+
+
     }
 
     public function index()
@@ -238,13 +240,13 @@ class Curriculum extends MY_Controller
         $array = array();
         $display = "";
         $totalUnit = 0;
+
         foreach ($list as $key => $value) {
 
             // CHECK IF YS NOT EMPTY
             $countSub = $curr_subject->search(array("ys_id" => $value->ys_id));
 
             if (!empty($countSub)) {
-
                 $display .= "<div id='ys_" . str_replace(' ', '', $value->year . "-" . $value->semister) . "' class=\"curr-preview-body\">
                         <center>
                         	<input type='hidden' name='txt_ys[]' value='" . $value->year . " - " . $value->semister . "'>
@@ -277,6 +279,7 @@ class Curriculum extends MY_Controller
                     $subject = new Subject;
                     $query = $subject->db->query("SELECT * FROM subject ORDER BY subject.subj_name ASC");
                     $sub = $query->result();
+
                     foreach ($sub as $key2 => $value2) {
                         $display .= "<option value='" . $value2->subj_id . "'>" .$value2->subj_code.' - '. $value2->subj_name . "</option>";
                     }
@@ -484,8 +487,15 @@ class Curriculum extends MY_Controller
                             if ($sub->db->affected_rows() > 0) {
                                 // SAVE PRE-REQUISITE //
                                 $cs_id = $sub->db->insert_id();
+
+//                                print_r($cs_id);
+
+
                                 if (!empty($preq)) {
                                     foreach ($preq as $kpreq => $vpreq) {
+                                        $pre_requisite = new Pre_requisite();
+                                        $pre_result = $pre_requisite->search(['cs_id'=>$cs_id]);
+
                                         // GET PREREQUISITES //
                                         $prq = new Pre_requisite;
                                         $prq->cs_id = $cs_id;

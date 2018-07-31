@@ -1,6 +1,17 @@
 <script type="text/javascript">
+  var tblUser,
+      tblSLCS,
+      tblCourse,
+      tblSection,
+      tblSection2,
+      tblCUrriculum,
+      tblCoursePreview;
+
 
   $(document).ready(function () {
+
+
+
     load_user();
     //user account tab
     $('.nav-pills a[href="#nav-pills-tab-1"]').on('shown.bs.tab', function (e) {
@@ -80,13 +91,6 @@
 
 
 
-  var tblUser;
-  var tblSLCS;
-  var tblCUrriculum;
-  var tblSection;
-  var tblCourse;
-  var tblSection2;
-  var tblCoursePreview;
 
 
   $(document).ready(function () {

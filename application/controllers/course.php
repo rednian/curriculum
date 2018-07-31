@@ -200,7 +200,7 @@ class Course extends MY_Controller {
           $ssd->ss_id = $ss_id;
           $ssd->type = $event['type'];
           $ssd->rl_id = $room_id;
-          $ssd->user_id = $user['id'];
+          $ssd->user_id = $user->user_id;
           $ssd->save();
 
           // if vacant update the status to 1, meaning successfully added
