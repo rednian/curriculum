@@ -24,12 +24,15 @@ class Cpanel extends MY_Controller
     $this->load->model("User_type");
     $type = new User_type;
 
+
     $cur = new Curr_codelist();
+
 
     $data['user_type'] = $type->get();
     $data['department'] = $this->department();
     $data['curriculum'] = $cur->active_curriculum();
     $data['title'] = 'C-Panel';
+
 
 
     $this->load->view('includes/header', $data);
@@ -39,11 +42,8 @@ class Cpanel extends MY_Controller
     $this->load->view('includes/footer');
     $this->load->view('includes/js');
     $this->load->view('cpanel/js');
-    $this->load->view('cpanel/backbone');
+    $this->load->view('cpanel/user');
 
-  }
-  public function hello(){
-      echo 'hello';
   }
 
   public function department(){

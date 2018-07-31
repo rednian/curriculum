@@ -342,7 +342,7 @@
 
         $.ajax({
             url: '<?php echo base_url('course/get_plotted_room')?>',
-            data: {room_code: room_code, sy: sy, semseter :semseter},
+            data: {room_code: room_code, sy: sy, semester :semester},
             dataType: 'json',
             success: function (data) {
             
@@ -493,7 +493,8 @@
                 $('#select-room').html('');
                 $('#select-room').append('<option disabled selected>Select Room</option>');
                 $.each(data, function (index, data) {
-                    $('#select-room').append('<option data-name="' + data.room + '" value="' + data.room_code + '">' + data.room + '</option>');
+                  console.log(data);
+                    $('#select-room').append('<option data-name="' + data.room + '" value="' + data.room_code + '">' + data.room +' '+data.room_code+ '</option>');
                 });
 
             }

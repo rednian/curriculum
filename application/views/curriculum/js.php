@@ -46,16 +46,12 @@
       initComplete : function(setting, json) {
           $.each(json, function(index, data) {
             $.each(data, function(index, data) {
-              // console.log(data.program_id);
               getCurriculumPerProg(data.program_id);
 
             });
           });
       }
       });
-
-
-
     });
 
 
@@ -122,7 +118,7 @@
           <span class=\"fa fa-chevron-right\"></span>\
           <a href=\"javascript:;\">Revised Curriculum Effectivity\
           <span class=\"lbl-sem\">" + value['eff_sem'] + "</span> " +
-              "SY: <span class=\"lbl-sy\">" + value['eff_sy'] + "</span>" +
+              "SY: <span class=\"lbl-sy\">  " + value['eff_sy'] + "</span>" +
               "</a>" +
               "</li>";
 
@@ -170,7 +166,6 @@
 
 
     // ------------------------------------ AND YEAR AND SEMISTER -------------------------------------------------//
-
     // var
     // var yns = 0;
 
@@ -364,8 +359,10 @@
 
     function remove_subject(con, tr) {
 
+      console.log('con ->'+con+', tr->'+tr);
+
         bootbox.confirm("Are you sure you want to remove subject?", function (result) {
-            if (result == true) {
+            if (result) {
                 var element = "#" + con + " table.table-curr tbody tr#" + tr;
                 $(element).remove();
             }
