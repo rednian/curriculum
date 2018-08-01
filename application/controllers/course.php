@@ -318,14 +318,9 @@ class Course extends MY_Controller {
 
 
     if ($type == "curriculum") {
-
       $data_array = array('program_id' => $request['program'], 'year_level' => $request['curryearlvl'], 'semester' => $request['currsemister'], 'sy' => $request['currsy']);
-
       $subjects = $this->getCurriculumSubject($data_array);
-
-
     } else if ($type == 'subject') {
-
       $subjects = $request['subjects'];
     }
 
@@ -339,8 +334,7 @@ class Course extends MY_Controller {
       $block_section->year_lvl = $request['year'];
       $block_section->semister = $request['semister'];
       $block_section->sy = $request['sy'];
-      $block_section->cur_id = $subjects[0]['cur_id'];
-      $block_section->pl_id = $type == 'curriculum' ? $request['program'] : 0;  
+      $block_section->pl_id = $type == 'curriculum' ? $request['program'] : 0;
       $block_section->save();
 
       $bs_id = $block_section->db->insert_id();
