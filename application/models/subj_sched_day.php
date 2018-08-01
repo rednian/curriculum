@@ -28,8 +28,6 @@ class Subj_sched_day extends MY_Model {
     	$this->db->where('sched_subj.sem',$semester);
 
     	return $this->get();
-    	
         }
-
 }
   
