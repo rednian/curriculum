@@ -493,10 +493,8 @@
                 $('#select-room').html('');
                 $('#select-room').append('<option disabled selected>Select Room</option>');
                 $.each(data, function (index, data) {
-                  console.log(data);
                     $('#select-room').append('<option data-name="' + data.room + '" value="' + data.room_code + '">' + data.room +' '+data.room_code+ '</option>');
                 });
-
             }
         });
     }
@@ -532,11 +530,9 @@
  
 </script>
 <style type="text/css">
-
     select#selected-days {
         width: 100% !important;
     }
-
     div#table-subject > label {
         display: none;
     }
