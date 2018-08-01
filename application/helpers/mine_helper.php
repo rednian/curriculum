@@ -15,10 +15,17 @@ function semester($semester = null)
 
 function plotted_time(){
   $times = array(
-    "morning"   => array("start" => "07:00", "end" => "12:00"),
-    "afternoon" => array("start" => "12:00", "end" => "18:00"),
-    "evening"   => array("start" => "18:00", "end" => "22:00")
-  );
+        "morning"   => array("start" => "07:00", "end" => "22:00"),
+        "afternoon" => array("start" => "07:00", "end" => "22:00"),
+        "evening"   => array("start" => "07:00", "end" => "22:00")
+    );
+
+//    $times = array(
+//        "morning"   => array("start" => "07:00", "end" => "12:00"),
+//        "afternoon" => array("start" => "12:00", "end" => "18:00"),
+//        "evening"   => array("start" => "18:00", "end" => "22:00")
+//    );
+//
   $schedule = $_SESSION['schedule_time'];
 
   $start = date('H:i',strtotime($times[$schedule]['start']));
