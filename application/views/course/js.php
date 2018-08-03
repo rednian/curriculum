@@ -37,8 +37,8 @@
 
         //initialize subject datatable
         tblSubjectList = $("#example").DataTable({
-            // paging: false,
-            // "bInfo": false
+            paging: false,
+            "bInfo": false
         });
 
 

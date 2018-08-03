@@ -50,7 +50,8 @@
                 {'data': 'activation'},
                 {
                     'data': 'bs_id', render: function (id) {
-                    return '<button onclick="viewScheduleSection(' + id + ')" class="btn btn-xs pull-right"><span class="fa fa-folder-open-o"></span> view</button>';
+                      var button = '<button onclick="viewScheduleSection(' + id + ')" class="btn btn-xs pull-right"><span class="fa fa-folder-open-o"></span> view</button>';
+                    return button;
                 }
                 }
             ]

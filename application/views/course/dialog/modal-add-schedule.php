@@ -100,7 +100,8 @@
                                                                                 lechour="<?php echo $subject->lec_hour; ?>"
                                                                                 labhour="<?php echo $subject->lab_hour; ?>"
                                                                                 subjcode="<?php echo $subject->subj_code; ?>"
-                                                                                value="<?php echo $subject->subj_id; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $subject->subj_code; ?>
+                                                                                value="<?php echo $subject->subj_id; ?>">
+                                                        <?php echo $subject->subj_code; ?>
                                                     </td>
                                                     <td><?php echo $subject->subj_name; ?></td>
                                                 </tr>
