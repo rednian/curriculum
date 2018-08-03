@@ -10,13 +10,13 @@
                 <table id="tblSchedule" class="table table-bordered table-hover table-striped">
                     <thead>
                     <tr>
-                        <th>div Code</th>
+                        <th>Code</th>
                         <th>Program</th>
                         <th>Year</th>
                         <th>Semester</th>
                         <th>SY</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Options</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,5 +57,6 @@
         });
 
     }
+
 
 </script>
