@@ -37,8 +37,8 @@
 
         //initialize subject datatable
         tblSubjectList = $("#example").DataTable({
-            paging: false,
-            "bInfo": false
+            // paging: false,
+            // "bInfo": false
         });
 
 
@@ -56,7 +56,8 @@
     });
 
   function searchSubject(key) {
-    tblSubjectList.fnFilter(key);
+    $('table#example').DataTable().search(key).draw();
+    // tblSubjectList.fnFilter(key);
   }
 
   function setCurriculumSched() {

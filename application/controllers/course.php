@@ -777,7 +777,6 @@ class Course extends MY_Controller {
 
   public function get_plotted_room() 
   {
-
     $user = $this->session->userdata('CURRICULUM_logged');
 
     $ss = new Subj_sched_day();
