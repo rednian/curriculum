@@ -20,6 +20,17 @@ class Block_section extends MY_Model
     public $pl_id;
     public $cur_id;
 
+    public function program($id)
+    {
+        $this->db->select('*')
+            ->from('block_section')
+            ->join('program_list', 'program_list.pl_id = block_section.pl_id','left')
+            ->where('block_section.bs_id',$id);
+        $q = $this->db->get();
+
+        return $q->result();
+    }
+
     public function schoolYear(){
         $this->db->group_by('sy');
         $this->db->order_by('bs_id','DESC');

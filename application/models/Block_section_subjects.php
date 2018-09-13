@@ -25,9 +25,12 @@ class Block_section_subjects extends MY_Model
 
     public function get_subject($data =array())
     {
-        $this->toJoin = array('subject'=>'block_section_subjects');
+        $this->toJoin = [
+            'block_section'=>'block_section_subjects',
+            'subject'=>'block_section_subjects',
+            ];
         $this->db->where('type',$data['type']);
-        $this->db->where('bs_id',$data['bs_id']);
+        $this->db->where('block_section_subjects.bs_id',$data['bs_id']);
 
         return $this->get();
     }

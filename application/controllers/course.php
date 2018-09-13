@@ -55,6 +55,93 @@ class Course extends MY_Controller {
     $this->load->view('course/js');
   }
 
+  public function saveOtherSection()
+  {
+      if($this->input->method() =='post'){
+          $request = $this->input->post('data');
+
+          $schedule = new Sched_subj();
+          $existing_schedule = $schedule->existingSchedule(['ss_id'=>$request['ss_id']]);
+
+          $subj_id = $ss_id = null;
+
+          if (!empty($existing_schedule)){
+              foreach ($existing_schedule as $result){
+                  $search_results = $schedule->search(['ss_id'=>$result->subj_id, 'bs_id'=>$request['bs_id']]);
+
+                  if (empty($search_results)){
+                      $s = new Sched_subj();
+                      $s->year_lvl = $result->year_lvl;
+                      $s->subj_id = $result->subj_id;
+                      $s->bs_id = $request['bs_id'];
+                      $s->avs_status = 'active';
+                      $s->sem = $result->sem;
+                      $s->sy = $result->sy;
+                      $s->save();
+
+                      $ss_id = $s->db->insert_id();
+                      $subj_id= $result->subj_id;
+                  }
+                  break;
+              }
+              foreach ($existing_schedule as $result1){
+                  $sub_sched_day = new Subj_sched_day();
+                  $sub_sched_day->time_start = $result1->time_start;
+                  $sub_sched_day->time_end = $result1->time_end;
+                  $sub_sched_day->user_id = $result1->user_id;
+                  $sub_sched_day->user_id = $result1->user_id;
+                  $sub_sched_day->rl_id = $result1->rl_id;
+                  $sub_sched_day->sd_id= $result1->sd_id;
+                  $sub_sched_day->type = $result1->type;
+                  $sub_sched_day->ss_id= $ss_id;
+                  $sub_sched_day->save();
+              }
+              $block_section_subject = new Block_section_subjects();
+              $block_section_result = $block_section_subject->search(['bs_id'=>$request['bs_id'], 'subj_id'=>$subj_id]);
+                    if (!empty($block_section_result)){
+                        foreach ($block_section_result as $result){
+                            $block_section_subject->load($result->bss_id);
+                            $block_section_subject->status = 1;
+                            $block_section_subject->save();
+                        }
+                    }
+//              $block_section_result = reset($block_section_result);
+
+
+
+          }
+          echo true;
+      }
+  }
+
+  public function subjectSchedule()
+  {
+          $request = $this->input->get('data');
+          $data = [];
+          $sched = new Sched_subj();
+          $results = $sched->schedule([
+              'sy' => $request['sy'],
+              'semester' => $request['semester'],
+              'year_level' => $request['year_level'],
+              'subj_id' => $request['subj_id'],
+              'subject_name' => $request['subject_name'],
+          ]);
+          if (!empty($results)) {
+              foreach ($results as $result) {
+                  $data[] = [
+                      'section'=>strtoupper($result->sec_code).'<span class="hide">'.$result->ss_id.'</span>',
+                      'subject'=>ucwords($result->subj_name),
+                      'room'=>ucwords($result->room_code),
+                      'day'=>strtoupper($result->day)
+                      .' '.date('h:i', strtotime($result->time_start))
+                      .' - '.date('h:i A', strtotime($result->time_end)),
+                      'ss_id'=>$result->ss_id
+                  ];
+              }
+          }
+          echo json_encode(['data'=>$data]);
+  }
+
   public function getRoom()
   {
       $data = [];
@@ -287,13 +374,17 @@ class Course extends MY_Controller {
     $subjects = $bss->get_subject(array('type' => $type, 'bs_id' => $schedule['bs_id']));
     $data = array();
 
-    if (!empty($subjects)) {
-      foreach ($subjects as $subject) {
+      if (!empty($subjects)) {
+          foreach ($subjects as $subject) {
         $data[] = array(
           'subj_id' => $subject->subj_id,
           'name' => strtoupper($subject->subj_name),
           'code' => strtoupper($subject->subj_code),
           'bs_id' => $subject->bs_id,
+            'section'=>$subject->sec_code,
+            'semester'=>$subject->semister,
+            'year_level'=>$subject->year_lvl,
+            'sy'=>$subject->sy,
         );
       }
     }
@@ -582,77 +673,64 @@ class Course extends MY_Controller {
 
   public function viewSectionSchedule() 
   {
-    $sched = new Sched_subj;
-    $sec = new Block_section;
+      $data = [];   $subj_id = null;
 
-    $bs_id = $this->input->get('bs_id');
-    $list = $sched->search(array("bs_id" => $bs_id));
+      $bs_id = $this->input->get( 'bs_id' );
 
-    $secDetails = array();
-    // SECTION DETAILS //
-    $query = $sec->db->query("
-            SELECT * 
-            FROM block_section
-            LEFT JOIN program_list ON block_section.pl_id = program_list.pl_id
-            WHERE block_section.bs_id = {$bs_id}
-            ");
+      $sched = new Subj_sched_day();
 
-    $secData = $query->result();
+      $schedules = $sched->schedule()->search( ["bs_id" => $bs_id] );
 
-    // dd($secData);
+      $block_section = new Block_section();
 
-    foreach ($secData as $key => $value) {
-      $secDetails = array(
-        "prog_name" => $value->prog_name,
-        "major" => $value->major,
-        "year" => $value->year_lvl,
-        "semister" => $value->semister,
-        "sy" => $value->sy,
-        "section" => $value->sec_code
-      );
-
-
+      foreach ( $block_section->program( $bs_id ) as $section ) {
+      $section_details = [
+          "sy" => $section->sy,
+          "major" => $section->major,
+          "year" => $section->year_lvl,
+          "section" => $section->sec_code,
+          "semister" => $section->semister,
+          "prog_name" => $section->prog_name
+      ];
     }
     // END SECTION DETAILS //
 
-    $schedule = array();
-    $subj_id = "";
-    foreach ($list as $key => $value) {
-
-      if ($subj_id != $value->subj_id) {
+    foreach ($schedules as $schedule) {
+      if ($subj_id != $schedule->subj_id) {
         $color = $this->random_color();
       }
-      $subj_id = $value->subj_id;
+      $subj_id = $schedule->subj_id;
 
-      $composition = getDayDetails("sd_id", $value->sd_id, "composition");
-      $room_code = $this->getRoomDetails("rl_id", $value->rl_id, "room_code");
-      $room_type = $this->getRoomDetails("rl_id", $value->rl_id, "type");
+      $composition = $this->getDayDetails("sd_id", $schedule->sd_id, "composition");
 
-      $schedule[] = array(
-        "ss_id" => $value->ss_id,
-        "id" => $room_code . $value->ss_id,
+      $room_code = $this->getRoomDetails("rl_id", $schedule->rl_id, "room_code");
+      $room_type = $this->getRoomDetails("rl_id", $schedule->rl_id, "type");
+
+      $data[] = array(
+        "ss_id" => $schedule->ss_id,
+        "id" => $room_code . $schedule->ss_id,
         "composition" => $composition,
-        "key" => $room_code . $value->ss_id,
-        "year_lvl" => $value->year_lvl,
-        "sy" => $value->sy,
-        "sem" => $value->sem,
-        "subj_id" => $value->subj_id,
-        "sd_id" => $value->sd_id,
-        "rl_id" => $value->rl_id,
-        "time_start" => $value->time_start,
-        "time_end" => $value->time_end,
+        "key" => $room_code . $schedule->ss_id,
+        "year_lvl" => $schedule->year_lvl,
+        "sy" => $schedule->sy,
+        "sem" => $schedule->sem,
+        "subj_id" => $schedule->subj_id,
+        "sd_id" => $schedule->sd_id,
+        "rl_id" => $schedule->rl_id,
+        "time_start" => $schedule->time_start,
+        "time_end" => $schedule->time_end,
         "room" => $room_code,
-        "title" => $this->getSubjCode($value->subj_id) . " - " . substr($room_type, 0, 3),
-        "start" => date("Y-m-d {$value->time_start}", strtotime("{$composition} this week")),
-        "end" => date("Y-m-d {$value->time_end}", strtotime("{$composition} this week")),
+        "title" => $this->getSubjCode($schedule->subj_id) . " - " . substr($room_type, 0, 3),
+        "start" => date("Y-m-d {$schedule->time_start}", strtotime("{$composition} this week")),
+        "end" => date("Y-m-d {$schedule->time_end}", strtotime("{$composition} this week")),
         "allDay" => false,
         "color" => $color,
         "textColor" => "#FFF",
         "type" => $room_type,
-        "bs_id" => $value->bs_id
+        "bs_id" => $schedule->bs_id
       );
     }
-    echo json_encode(array($schedule, $secDetails));
+    echo json_encode(array($data, $section_details));
   }
 
   public function loadEditRenderingEvents() 
