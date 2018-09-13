@@ -56,19 +56,6 @@ function convert_time($interval = false){
   return $this->lz($hours) . ":" . $this->lz($minutes) . ":" . $this->lz($seconds);
 }
 
-function getDayDetails($field, $par, $return)
-{
-  $CI = get_instance();
-  $CI->load->model('Sched_day');
-
-  $day = new Sched_day();
-  $result = $day->search(array($field => $par));
-  foreach ($result as $key => $value) {
-    return $value->$return;
-  }
-}
-
-
 function dd($data = array())
 {
   $array = array();

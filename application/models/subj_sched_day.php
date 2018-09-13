@@ -15,6 +15,12 @@ class Subj_sched_day extends MY_Model {
     public $rl_id;
     public $user_id;
 
+    public function schedule()
+    {
+        $this->toJoin = ['sched_subj'=>'subj_sched_day'];
+        return $this;
+    }
+
     public function get_schedule($room_code = null, $sy = null, $semester = null){
     	$this->toJoin = array(
     	    "Room_list" => "Subj_sched_day", 
@@ -23,10 +29,10 @@ class Subj_sched_day extends MY_Model {
             "Subject" => "Sched_subj",
     	    "Block_section" => "Sched_subj"
     	);
-    	$this->db->where('room_list.room_code', $room_code);
-    	$this->db->where('sched_subj.sy',$sy);
-    	$this->db->where('sched_subj.sem',$semester);
-
+        $this->db->where('room_list.room_code', $room_code)
+            ->where('sched_subj.sy',$sy)
+            ->where('sched_subj.sem',$semester)
+            ->group_by(['Subj_sched_day.time_start','Subj_sched_day.time_end','Subj_sched_day.sd_id']);
     	return $this->get();
         }
 }

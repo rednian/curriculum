@@ -7,15 +7,15 @@
                 <div class="row">
 
                     <div class="col-md-2">
-                        <small>div:</small>
+                        <small>Section Code</small>
                         <div style="font-size:15px;color:#337ab7" id="section-detail"></div>
                     </div>
                     <div class="col-md-1">
-                        <small>Year:</small>
+                        <small>Year</small>
                         <div style="font-size:15px;color:#337ab7" id="year-detail"></div>
                     </div>
                     <div class="col-md-4">
-                        <small>Curriculum:</small>
+                        <small>Curriculum</small>
                         <div style="font-size:15px;color:#337ab7" id="program-detail"></div>
                         <div>
                             <small id="major-detail"></small>
@@ -70,8 +70,13 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th class="hidden"></th>
+                                                    <th class="hidden"></th>
+                                                    <th class="hidden"></th>
+                                                    <th class="hidden"></th>
+                                                    <th class="hidden"></th>
                                                     <th>Code</th>
                                                     <th>Name</th>
+                                                    <th>#</th>
                                                 </tr>
                                                 </thead>
                                             </table>
@@ -84,6 +89,7 @@
                                                     <th class="hidden"></th>
                                                     <th>Code</th>
                                                     <th>Name</th>
+                                                    <th>#</th>
                                                 </tr>
                                                 </thead>
                                             </table>
@@ -180,15 +186,51 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
 
-    var room_code = subj_id = sub_name = bs_id = type = lab_count = lec_count = '';
+<!--modal for schedule list-->
+<div class="modal modal-schedule fade" id="modal-schedule" data-backdrop="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Sections List</h4>
+			</div>
+			<div class="modal-body">
+                <table class="table" id="sections-list">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Section/Subject</th>
+                        <th>Room</th>
+                        <th>Schedule</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+			</div>
+<!--			<div class="modal-footer">-->
+<!--				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+<!--			</div>-->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+   var row_id =  counter = block_section_id = year_level = semester = sy = room_code = subj_id = sub_name = bs_id = type = lab_count = lec_count = null;
+
     var schedule_data = [];
-    var room_type_value = '';
+    var room_type_value = null;
 
     $(document).ready(function () {
 
         reload();
+      $('div.modal#modal-schedule').on('shown.bs.modal', function () {
+        sectionToOtherRoom();
+        counter = 0;
+      });
+
 
         $('#modalSubjectScheduling').on('shown.bs.modal', function () {
             $('#select-room').html('<option disabled selected>Select Room</option>');
@@ -201,6 +243,85 @@
         });
 
     });
+
+    function sectionToOtherRoom()
+    {
+      var groupColumn = 0;
+        var section_list_table = $('table#sections-list').DataTable({
+          destroy:true,
+          "bSort": false,
+          "bInfo": false,
+          length: false,
+          searching:false,
+          deferRender:true,
+          lengthChange: false,
+          order : [[ groupColumn, 'asc' ]],
+
+          columns:[
+            {'data':'section'},
+            {'data':'subject'},
+            {'data':'room'},
+            {'data':'day'},
+            {'data':'ss_id','visible':false}
+          ],
+
+          "columnDefs": [
+            { "visible": false, "targets": groupColumn }
+          ],
+
+          "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+              if ( last !== group ) {
+                $(rows).eq( i ).before('<tr class="group active"><td colspan="5"><strong>'+group+'</strong></td></tr>');
+                last = group;
+              }
+            } );
+          },
+
+          ajax:{
+            url:'<?php echo base_url('course/subjectSchedule');?>',
+            data: {'data': {'year_level': year_level, 'semester':semester, 'sy':sy, 'subj_id':subj_id, 'bs_id':bs_id, 'subject_name':sub_name}}
+          }
+
+        });
+
+      // Order by the grouping
+      $('table#sections-list tbody').on( 'click', 'tr.group', function () {
+        var ss_id = $(this).closest('tr').find('span').text();
+
+
+        // var promise1 = new Promise(function(resolve, reject) {
+        //   resolve($('div.modal#modal-schedule').modal('hide'));
+        // });
+        if (counter <= 1){
+          $.ajax({
+            url:'<?php echo base_url('course/saveOtherSection'); ?>',
+            type: 'post',
+            data:{'data':{'ss_id':ss_id, 'bs_id':block_section_id}},
+            success: function(data) {
+              if(data){
+                $('div.modal#modal-schedule').modal('hide');
+              }
+            }
+          });
+        }
+        counter++;
+
+
+      } );
+
+      $('table#sections-list tbody')
+         .on('mouseover', 'tr.group', function() {
+            $(this).removeClass('active').addClass('success');
+      }).
+      on('mouseout', 'tr.group', function() {
+        $(this).removeClass('success').addClass('active');
+          });
+    }
 
     function set_room() {
         $('#btn-save').click(function () {
@@ -313,7 +434,7 @@
                 week: 'ddd'
             },
             slotDuration: "0:<?php echo $time->interval; ?>",
-            snapDuration: "0:<?php echo $time->interval; ?>",
+            snapDuration: "0w<?php echo $time->interval; ?>",
             allDaySlot: false,
             editable: false,
             droppable: false,
@@ -384,7 +505,12 @@
                     'data': 'bs_id'
                 },
                 {'data': 'code'},
-                {'data': 'name'}
+                {'data': 'name'},
+                {'data': 'subj_id',
+                  render: function(id){
+                  return '<button class="btn btn-sm btn-primary btn-schedule-list" data-toggle="modal" data-target="#modal-schedule">select to other section</button>';
+                  }
+                },
             ]
         });
 
@@ -438,8 +564,25 @@
                     'visible': false,
                     'data': 'bs_id'
                 },
+              {
+                'visible': false,
+                'data': 'semester'
+              },
+              {
+                'visible': false,
+                'data': 'sy'
+              },
+              {
+                'visible': false,
+                'data': 'year_level'
+              },
                 {'data': 'code'},
-                {'data': 'name'}
+                {'data': 'name'},
+                {'data': 'subj_id',
+                render: function(id){
+                  return '<button class="btn btn-sm btn-primary btn-schedule-list" data-target="#modal-schedule" data-toggle="modal" >section to other section</button>';
+                }
+              }
             ],
             initComplete: function(settings, json) {
                bs_id = json.data[0].bs_id;
@@ -448,6 +591,7 @@
 
         /*retrieve room from lecture table*/
         $('#table-subject-lecture tbody').on('click', 'tr', function () {
+          row_id = subject_table.row(this).id();
             if ($(this).hasClass('success')) {
                 $(this).removeClass('success');
             }
@@ -458,17 +602,41 @@
 
             subj_id = subject_table.row(this).data()['subj_id'];
 
-            bs_id = subject_table.row(this).data()['bs_id'];
+           block_section_id =  bs_id = subject_table.row(this).data()['bs_id'];
 
             sub_name = subject_table.row(this).data()['name'];
 
+            semester = subject_table.row(this).data()['semester'];
+
+            sy = subject_table.row(this).data()['sy'];
+
+            year_level = subject_table.row(this).data()['year_level'];
+
             type = 'lec';
 
-
             load_rooms('lecture');
-
         });
     }
+
+
+
+  function Section(bs_id, type, subject_id, sy, semester) {
+    this.sy = sy;
+    this.type = type;
+    this.bs_id = bs_id;
+    this.semester = semester;
+    this.subject_id = subject_id;
+  }
+
+  Section.prototype.get = function() {
+    return {
+      'sy': this.sy,
+      'type': this.type,
+      'bs_id': this.bs_id,
+      'subject_id': this.subject_id,
+      'semester': this.semester
+    }
+  };
 
     function load_start_time() {
         $('#select-time-start').html('<option selected disabled> Select Time </option>');
@@ -530,6 +698,9 @@
  
 </script>
 <style type="text/css">
+    table tr.group.active:hover, table tr.group.success:hover{
+        cursor: pointer;
+    }
     select#selected-days {
         width: 100% !important;
     }
