@@ -231,7 +231,6 @@
         counter = 0;
       });
 
-
         $('#modalSubjectScheduling').on('shown.bs.modal', function () {
             $('#select-room').html('<option disabled selected>Select Room</option>');
             load_start_time();
@@ -292,12 +291,7 @@
       // Order by the grouping
       $('table#sections-list tbody').on( 'click', 'tr.group', function () {
         var ss_id = $(this).closest('tr').find('span').text();
-
-
-        // var promise1 = new Promise(function(resolve, reject) {
-        //   resolve($('div.modal#modal-schedule').modal('hide'));
-        // });
-        if (counter <= 1){
+        if(counter == 0){
           $.ajax({
             url:'<?php echo base_url('course/saveOtherSection'); ?>',
             type: 'post',
@@ -309,10 +303,10 @@
             }
           });
         }
+        //counter is used to make sure that when row is selected it only send 1 data request to the server
+        // this is a bug and need to be fix. about click event of the tr that has a class of group element
         counter++;
-
-
-      } );
+      });
 
       $('table#sections-list tbody')
          .on('mouseover', 'tr.group', function() {
@@ -443,34 +437,21 @@
     }
 
     function load_room() {
-
         $(document).on('change', '#select-room', function () {
-
-             room_code = $(this).val();
-            var room_name = $(this).attr('data-name');
-
-            //todo - room name does not display
-            $('#room-display-name').html(room_name + ' (' + room_code + ')');
-
-
-            room_calendar(room_code);
-
-
+          room_code = $(this).val();
+          $('#room-display-name').html('Room '+room_code);
+          room_calendar(room_code);
         });
     }
 
     function room_calendar(room_code) {
-
         $.ajax({
             url: '<?php echo base_url('course/get_plotted_room')?>',
             data: {room_code: room_code, sy: sy, semester :semester},
             dataType: 'json',
             success: function (data) {
-            
                 $("#subject-schedule-calendar").fullCalendar('removeEvents');
-                
                 $("#subject-schedule-calendar").fullCalendar('addEventSource', data);
-
                 $("#subject-schedule-calendar").fullCalendar('refetchEvents');
             }
         });
@@ -510,7 +491,7 @@
                   render: function(id){
                   return '<button class="btn btn-sm btn-primary btn-schedule-list" data-toggle="modal" data-target="#modal-schedule">select to other section</button>';
                   }
-                },
+                }
             ]
         });
 
@@ -532,8 +513,6 @@
             type = 'lab';
 
             load_rooms('laboratory');
-
-
         });
     }
 
@@ -543,15 +522,15 @@
                 url: '<?php echo base_url('course/get_block_subject'); ?>',
                 data: {type: 'lec'}
             },
-            filter: false,
-            processing: true,
-            deferRender: true,
-            paginate: false,
-            destroy: true,
-            sort: false,
-            length: false,
-            info: false,
-            pagingType: 'simple',
+          pagingType: 'simple',
+          deferRender: true,
+          processing: true,
+          paginate: false,
+          length: false,
+          destroy: true,
+          filter: false,
+          sort: false,
+          info: false,
             language: {
                 'loadingRecords': 'retrieving subjects...'
             },
@@ -618,26 +597,6 @@
         });
     }
 
-
-
-  function Section(bs_id, type, subject_id, sy, semester) {
-    this.sy = sy;
-    this.type = type;
-    this.bs_id = bs_id;
-    this.semester = semester;
-    this.subject_id = subject_id;
-  }
-
-  Section.prototype.get = function() {
-    return {
-      'sy': this.sy,
-      'type': this.type,
-      'bs_id': this.bs_id,
-      'subject_id': this.subject_id,
-      'semester': this.semester
-    }
-  };
-
     function load_start_time() {
         $('#select-time-start').html('<option selected disabled> Select Time </option>');
         $.ajax({
@@ -694,8 +653,6 @@
         }
         return num;
     }
-
- 
 </script>
 <style type="text/css">
     table tr.group.active:hover, table tr.group.success:hover{

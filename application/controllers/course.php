@@ -217,40 +217,35 @@ class Course extends MY_Controller {
 
   public function save_schedule() 
   {
-
     if ($this->input->method() == 'get' && array_key_exists('event', $_GET)) {
 
+        $ss_id = null;
       $event = $this->input->get('event');
 
       $user = $this->userInfo;
 
       $start = date("Y-m-d H:i:s", strtotime($event['start']));
 
-
       $room_id = $this->get_room_id($event['room']);
 
-      $subject_hour = $this->get_subject_hour(array('type' => $event['type'], 'subj_id' => $event['sub_id']));
+      $subject_hour = $this->get_subject_hour(['type' => $event['type'], 'subj_id' => $event['sub_id']]);
 
       $schedule = $this->session->userdata('schedule');
 
-      $time_end = $this->get_time_end(array('hour' => $subject_hour['hour'], 'day' => $event['selected_days'], 'start' => $start));
+      $time_end = $this->get_time_end(['hour' => $subject_hour['hour'], 'day' => $event['selected_days'], 'start' => $start]);
 
       $start = date("H:i", strtotime($event['start']));
 
-
       $this->db->trans_begin();
 
-      //find the subject id  and blck section id on sched_subj table
+      //find the subject id  and block section id on sched_subj table
       $sched_subj = new Sched_subj();
-      $result_search = $sched_subj->search(array('subj_id'=>$event['sub_id'],'bs_id'=>$event['bs_id']));
+      $result_search = $sched_subj->search(['subj_id'=>$event['sub_id'],'bs_id'=>$event['bs_id']]);
 
       //if subject id and block section id not exist save to sched_subj
       //otherwise disregard.
 
-      $ss_id = '';
-
       if(empty($result_search)){
-
         $ss = new Sched_subj();
         $ss->year_lvl = $schedule['year'];
         $ss->sy = $schedule['sy'];
@@ -264,7 +259,6 @@ class Course extends MY_Controller {
 
       }
       else{
-
         foreach($result_search as $result){
           $ss_id = $result->ss_id;
           break;
@@ -272,14 +266,11 @@ class Course extends MY_Controller {
       }
 
       foreach ($event['selected_days'] as $day_id) {
-
         $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id);
-
         if ($this->isTimeVacant($data)) {
           $ss->db->trans_rollback();
           echo false;
         } else {
-
           $ssd = new Subj_sched_day();
           $ssd->time_start = $start;
           $ssd->time_end = $time_end;
@@ -292,7 +283,7 @@ class Course extends MY_Controller {
 
           // if vacant update the status to 1, meaning successfully added
           $bss = new Block_section_subjects();
-          $results = $bss->search(array('bs_id' => $event['bs_id'], 'type' => $event['type'], 'subj_id' => $event['sub_id']));
+          $results = $bss->search(['bs_id' => $event['bs_id'], 'type' => $event['type'], 'subj_id' => $event['sub_id']]);
 
           if (!empty($results)) {
             foreach ($results as $result) {
@@ -457,8 +448,7 @@ class Course extends MY_Controller {
         // $this->save_sched_subj($sched_subj_data);
 
         $lab_unit = $subject['lab_unit'];
-        if ($lab_unit > 0) {
-
+        if ($lab_unit > 0 && $subject['lec_unit'] != 0 ) {
 
           $block_section_subject_data['type'] = 'lab';
           $sched_subj_data['type'] = 'lab';
@@ -552,32 +542,6 @@ class Course extends MY_Controller {
       return $list;
     }
   }
-
-  // public function loadRenderingEvents(){
-
-  //     $sched = new Subj_sched_day();
-  //     $sched->toJoin = array(
-  //         "Room_list" => "Subj_sched_day",
-  //         "Sched_day" => "Subj_sched_day",
-  //         "Sched_subj" => "Subj_sched_day",
-  //         "Subject" => "Sched_subj"
-  //     );
-
-  //     $list = $sched->get();
-  //     $rendered = array();
-  //     foreach ($list as $key => $value) {
-  //         $rendered[] = array(
-  //             'title' => ucwords($value->subj_name),
-  //             "room" => $value->room_code,
-  //             "start" => date("Y-m-d {$value->time_start}", strtotime("{$value->composition} this week")),
-  //             "end" => date("Y-m-d {$value->time_end}", strtotime("{$value->composition} this week")),
-  //             "rendering" => 'background',
-  //                'textColor' => 'black',
-  //             "backgroundColor" => $this->random_color(),
-  //         );
-  //     }
-  //     echo json_encode($rendered);
-  // }
 
   public function loadPlottedEvents() 
   {
