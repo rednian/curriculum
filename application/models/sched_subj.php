@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ->join('sched_day', 'sched_day.sd_id = subj_sched_day.sd_id')
             ->where(['sched_subj.sy'=>$data['sy']])
             ->where(['sched_subj.sem'=>$data['semester']])
-            ->where(['sched_subj.year_lvl'=>$data['year_level']])
+            // ->where(['sched_subj.year_lvl'=>$data['year_level']])
             ->where(['sched_subj.subj_id'=>$data['subj_id']])
             ->group_by(['sched_subj.ss_id','block_section.sec_code','subj_sched_day.type','subj_sched_day.type'])
             ->order_by('block_section.sec_code');
