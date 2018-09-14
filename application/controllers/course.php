@@ -122,7 +122,7 @@ class Course extends MY_Controller {
           $results = $sched->schedule([
               'sy' => $request['sy'],
               'semester' => $request['semester'],
-              'year_level' => $request['year_level'],
+//              'year_level' => $request['year_level'],
               'subj_id' => $request['subj_id'],
               'subject_name' => $request['subject_name'],
           ]);
