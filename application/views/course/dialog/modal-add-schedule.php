@@ -16,11 +16,17 @@
                                     <div class="col-md-7">
                                         <select id="yearlvl" required class="form-control input-sm" name="year_lvl">
                                             <option value='' selected="selected" class="hide">Select year level</option>
+                                            <optgroup label="College">
                                             <option value="First Year">1st</option>
                                             <option value="Second Year">2nd</option>
                                             <option value="Third Year">3rd</option>
                                             <option value="Forth Year">4th</option>
                                             <option value="Fifth Year">5th</option>
+                                            </optgroup>
+                                            <optgroup label="Senior High">
+                                                <option value="grade 11">Grade 11</option>
+                                                <option value="grade 12">Grade 12</option>
+                                            </optgroup>
                                         </select>
                                     </div>
                                 </div>
