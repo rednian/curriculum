@@ -22,7 +22,7 @@ class Curr_codelist extends MY_Model
     $this->toJoin = array(
       'program_list'=>'curr_codelist'
     );
-    $this->db->order_by('cur_id','DESC'); 
+    $this->db->group_by('curr_codelist.eff_sy')->order_by('cur_id','DESC');
 
     return $this->get();
   }

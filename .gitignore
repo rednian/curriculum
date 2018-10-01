@@ -5,3 +5,4 @@
 .idea/dataSources.xml
 .idea/dataSources/
 /vendor/
+/node_modules/
