@@ -320,10 +320,8 @@ class Cpanel extends MY_Controller
     $stat = "";
     $sec = $section->search(array("bs_id" => $bs_id));
     foreach ($sec as $key => $value) {
-      if ($value->activation == "open") {
+      if (!$value->activation == "open") {
         $stat = "close";
-      } else {
-        $stat = "open";
       }
     }
 
