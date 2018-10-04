@@ -113,7 +113,7 @@ class Instructor extends MY_Controller {
     	$semister = array("1st Semester"=>"First Semester", "2nd Semester"=>"Second Semester");
 
     	$request = $this->input->get();
-    	
+
     	$list = $block->search(array("cur_id"=>$request['cur_id']));
     	if(!empty($list)){
     		echo json_encode($list);
@@ -268,19 +268,15 @@ class Instructor extends MY_Controller {
         echo json_encode($sched);
     }
 
-    public function giveInSchedule(){
-
+    public function giveInSchedule()
+    {
         $employee_id = $this->input->get('employee_id');
-
         $data = $this->input->get('data');
 
         $hasConflict = false;
         $transResult = array();
 
-
-
         foreach ($data as $key => $value) {
-
             $rl_id = $value['rl_id'];
             $time_end = $value["time_end"];
             $time_start = $value['time_start'];
@@ -294,8 +290,8 @@ class Instructor extends MY_Controller {
                             AND subj_sched_day.sd_id = {$sd_id} 
                             AND sched_subj.employee_id = '{$employee_id}'
                             AND (
-                                subj_sched_day.time_start <= '{$time_end}' 
-                                AND subj_sched_day.time_end >= '{$time_start}'
+                                subj_sched_day.time_start < '{$time_end}' 
+                                AND subj_sched_day.time_end > '{$time_start}'
                                 )
                             ");
           

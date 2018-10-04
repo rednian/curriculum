@@ -16,7 +16,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		public $type;
 		public $desc;
 
-		public function add($data = array()){
+		public function getBy($data = array())
+		{
+			foreach ($data as $key=>$value) {
+					switch (expr) {
+				case expr:
+					// code...
+					break;
+				
+				default:
+					// code...
+					break;
+			}
+			}
+		
+			$this->db->where();
+		}
+
+		public function add($data = array())
+		{
 			if(!empty($data)){
 				foreach ($data as $key => $value) {
 					if($key != "rl_id"){
@@ -33,7 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		}
 
-		public function show($data = array()){
+		public function show($data = array())
+		{
 			if(empty($data)){
 				return $this->get();
 			}
@@ -42,7 +61,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		}
 
-		public function remove($data){
+		public function remove($data)
+		{
 			foreach ($data as $key => $value) {
 				$this->load($value);
 				$this->delete();
@@ -56,7 +76,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		}
 
-		public function modify($rl_id, $data){
+		public function modify($rl_id, $data)
+		{
 			$this->load($rl_id);
 			foreach ($data as $key => $value) {
 				$this->$key = $value;
@@ -69,7 +90,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		}
 
-		public function roomSched($data = []){
+		public function roomSched($data = [])
+		{
 
 			$sql = "SELECT
 						sched_subj.*, sched_day.composition,

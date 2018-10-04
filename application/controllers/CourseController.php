@@ -20,6 +20,5 @@ class CourseController extends MY_Controller{
    public function roomId()
    {
     $room = new Room_list();
-    
    }
 }
