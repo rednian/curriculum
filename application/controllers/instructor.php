@@ -227,7 +227,7 @@ class Instructor extends MY_Controller {
         $sched_subj->toJoin = array(
                                 "room_list"=>"subj_sched_day",
                                 "sched_subj"=>"subj_sched_day",
-                                "sched_day"=>"subj_sched_day"
+                                "sched_day"=>"subj_sched_day1"
                                 );
 
         $sched['Lecture'] = array();

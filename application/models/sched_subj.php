@@ -25,8 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $this->db->select('*')->from('sched_subj')
                 ->join('subj_sched_day', 'subj_sched_day.ss_id = sched_subj.ss_id')
                 ->where('sched_subj.avs_status','active')
-                ->where('sched_subj.ss_id',$data['ss_id'])
-                ->group_by('subj_sched_day.type');
+                ->where('sched_subj.ss_id',$data['ss_id']);
             $query = $this->db->get();
 
             return $query->result();
