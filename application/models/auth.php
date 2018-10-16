@@ -18,7 +18,7 @@
 
 			if(!empty($search)){
 				foreach ($search as $key => $value) {
-					if($password == doDecrypt($value->password)){
+					if(password_verify($password, $value->password)){
 						$sess_array = array( 'id' => $value->user_id, 'name' => $value->fullName('f l') );
 						// SET SESSION
 						$this->setUserSession($sess_array);

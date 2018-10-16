@@ -15,6 +15,7 @@ class Subj_sched_day extends MY_Model {
     public $rl_id;
     public $user_id;
 
+
     public function schedule()
     {
         $this->toJoin = ['sched_subj'=>'subj_sched_day'];

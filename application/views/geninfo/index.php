@@ -57,6 +57,12 @@
                     <div>Others</div>
                   </div>
                 </div>
+                  <div class="col-sm-6">
+                      <div href="#tab-semester-setup" aria-controls="tab-semester-setup" data-toggle="tab" class="btn-options">
+                          <i class="fa fa-random fa-4x"></i>
+                          <div>Semester Setup</div>
+                      </div>
+                  </div>
               </div>
             </div>
           </div>

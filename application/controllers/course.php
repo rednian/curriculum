@@ -105,10 +105,6 @@ class Course extends MY_Controller {
                             $block_section_subject->save();
                         }
                     }
-//              $block_section_result = reset($block_section_result);
-
-
-
           }
           echo true;
       }

@@ -76,7 +76,7 @@ class Cpanel extends MY_Controller
         foreach ($data as $key => $value) {
 
           $data['username'] = escape_str($this->input->post('username'));
-          $data['password'] = doEncrypt(escape_str($this->input->post('password')));
+          $data['password'] = password_hash(escape_str($this->input->post('password')), PASSWORD_BCRYPT, ['cost'=>8]);
           $data['user_fname'] = escape_str($this->input->post('user_fname'));
           $data['user_lname'] = escape_str($this->input->post('user_lname'));
           $data['user_mname'] = escape_str($this->input->post('user_mname'));
