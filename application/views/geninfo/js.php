@@ -730,9 +730,8 @@
         $.each(data, function (key, value) {
 
           var ext = value['employee_ext'] != null ? value['employee_ext'] :'';
-
           var newRow = tblInstructor.fnAddData([
-            value['employee_fname'] + " " + value['employee_mname'][0] + " " + value['employee_lname'] + " " + ext,
+            value['employee_fname'] + " " + value['employee_mname'] + " " + value['employee_lname'] + " " + ext,
             value['department_name']
           ]);
 
@@ -740,9 +739,6 @@
           var nTr = oSettings.aoData[newRow[0]].nTr;
           $(nTr).attr("id", value['employment_id']);
         });
-      },
-      error: function () {
-
       }
     });
   }

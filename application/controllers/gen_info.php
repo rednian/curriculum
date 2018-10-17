@@ -364,7 +364,6 @@ class Gen_info extends MY_Controller
     $instructor = new InstructorModel;
     $list = $instructor->get_list();
     // echo json_encode(array('data'=>$list));
-    
     echo json_encode($list);
   }
 

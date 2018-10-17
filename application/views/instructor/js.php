@@ -54,7 +54,7 @@
       "pagingType": "simple",
       "bSort": false,
       "bLengthChange": false,
-      "bInfo": false,
+      // "bInfo": false,
       "bFilter": true,
       "oLanguage": {
         "sSearch": "<i class='fa fa-search'></i> ",
@@ -207,7 +207,7 @@
             var ext = value['employee_ext'] != null ? value['employee_ext'] : '';
 
           var newRow = tblInstructor.fnAddData([
-            value['employee_fname'] + " " + value['employee_mname'][0] + " " + value['employee_lname'] + " " + ext,
+            value['employee_fname'] + " " + value['employee_mname'] + " " + value['employee_lname'] + " " + ext,
             value['department_name']
           ]);
 
