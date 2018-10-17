@@ -20,6 +20,13 @@ class Block_section extends MY_Model
     public $pl_id;
     public $cur_id;
 
+    public function getOffSem()
+    {
+        $this->db->where('pl_id',0)
+            ->order_by('sec_code');
+
+        return $this->get();
+    }
     public function program($id)
     {
         $this->db->select('*')

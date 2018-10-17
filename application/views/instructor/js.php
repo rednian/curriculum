@@ -223,7 +223,7 @@
   }
 
   function searchInstructor(val) {
-    tblInstructor.fnFilter(val);
+        tblInstructor.fnFilter(val);
   }
 
   var pubSem = $("#selectSem").val();

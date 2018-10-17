@@ -125,13 +125,25 @@ class Instructor extends MY_Controller {
 
     public function loadOffSection(){
     	$block = new Block_section;
-    	$list = $block->search(array("pl_id"=>0));
-    	if(!empty($list)){
-    		echo json_encode($list);
+    	$sections = $block->getOffSem();
+    	$data = [];
+
+    	if(!empty($sections)){
+    	    foreach ($sections as $section){
+    	        $data[] = [
+                    'description'=>$section->description,
+                    'activation'=>$section->activation,
+                    'sec_code'=>$section->sec_code,
+                    'year_lvl'=>$section->year_lvl,
+                    'semister'=>$section->semister,
+                    'bs_id'=>$section->bs_id,
+                    'sy'=>$section->sy,
+                    'pl_id'=>$section->pl_id,
+                    'cur_id'=>$section->cur_id,
+                ];
+            }
     	}
-    	else{
-    		echo json_encode(array());
-    	}
+    	echo json_encode($data);
     }
 
     public function loadSubject(){

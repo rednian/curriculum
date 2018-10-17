@@ -26,7 +26,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4 p-l-0" style="position:relative;">
+    <div class="col-md-3 p-l-0" style="position:relative;">
       <div class="numLeft">1</div>
       <div class="panel panel-info m-l-30">
         <div class="panel-heading no-radius">
@@ -57,9 +57,7 @@
         </div>
       </div>
     </div>
-
-
-    <div class="col-md-3 p-l-3 p-r-3" style="vertical-align:bottom">
+    <div class="col-md-4 p-l-3 p-r-3" style="vertical-align:bottom">
 
       <div class="row">
         <div class="col-md-12" style="position:relative;">
@@ -220,7 +218,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-5 p-r-0">
       <div class="panel panel-info">
         <div class="panel-heading clearfix">
