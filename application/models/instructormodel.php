@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 
         public function get_list(){
-            $query = $this->db->query("SELECT * FROM instructor");
+            $query = $this->db->query("SELECT * FROM instructor ORDER BY department_name DESC");
             return $query->result();
         }
     	
