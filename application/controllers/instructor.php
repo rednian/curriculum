@@ -209,8 +209,10 @@ class Instructor extends MY_Controller {
             $result = $sched->result();
 
         $sub = array();
+        $unit = 0;
 
         foreach ($result as $key => $value) {
+            $unit += $value->lab_unit + $value->lec_unit;
             $sub[] = array(
                 "bs_id"=>$value->bs_id,
                 "subj_id"=>$value->subj_id,
@@ -224,7 +226,8 @@ class Instructor extends MY_Controller {
                 "time_end" => date_format(date_create($value->time_end), 'h:i A'),
                 "composition" => $value->composition,
                 "subject" => $value->subj_name,
-                "room" => $value->room_code
+                "room" => $value->room_code,
+                'unit'=>$unit
             );
         }
         echo json_encode($sub);

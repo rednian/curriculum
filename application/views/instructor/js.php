@@ -264,6 +264,18 @@
     var url = "<?php echo base_url('"+str+"') ?>";
     $("#calendar").fullCalendar('removeEvents');
     $("#calendar").fullCalendar('addEventSource', url);
+
+    $.ajax({
+      url: url,
+      dataType:'json',
+    }).done(function(data) {
+      $('#unit-plotted').html(0);
+     _.each(data, function(value) {
+       $('#unit-plotted').html(value.unit);
+     });
+    });
+
+
   }
 
   function loadActiveCurriculum() {

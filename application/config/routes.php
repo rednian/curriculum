@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'login';
 
+$route['login'] = 'login';
 $route['course'] = 'course';
 $route['cpanel'] = 'cpanel';
 $route['gen_info'] = 'gen_info';
