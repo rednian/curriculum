@@ -19,9 +19,8 @@ class Gen_info extends MY_Controller
     $this->load->model("Other_sched");
   }
 
-  public function index(){
-
-
+  public function index()
+  {
     $this->load->model("Department");
     $dep = new Department;
 

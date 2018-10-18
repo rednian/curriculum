@@ -12,7 +12,7 @@ class Login extends CI_Controller
 
     public function index()
     {
-        if (!$this->session->set_userdata('CURRICULUM_login_result')) {
+        if (!$this->session->CURRICULUM_logged) {
             $this->load->view('login');
         } else {
             redirect('gen_info', 'refresh');
@@ -35,7 +35,7 @@ class Login extends CI_Controller
                 $sess_login = array(
                     "result" => false
                 );
-                $this->session->set_userdata('CURRICULUM_login_result');
+                $this->session->set_userdata('CURRICULUM_logged');
                 $this->load->view('login');
             }
         }
