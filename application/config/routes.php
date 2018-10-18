@@ -50,9 +50,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |   my-controller/my-method -> my_controller/my_method
 */
 $route['default_controller'] = 'login';
-//$route['(:any)'] = '';
 
-$route['products/(:num)/edit'] = 'example/edit/$1';
+$route['course'] = 'course';
+$route['cpanel'] = 'cpanel';
+$route['gen_info'] = 'gen_info';
+$route['instructor'] = 'instructor';
+$route['currriculum'] = 'currriculum';
+$route['courseschedule'] = 'courseschedule';
 
+//$route['products/(:num)/edit'] = 'example/edit/$1';
+$route['(:any)'] = 'errors/error_404';
 $route['404_override'] = 'errors/error_404';
 $route['translate_uri_dashes'] = FALSE;
