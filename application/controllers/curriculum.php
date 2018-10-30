@@ -103,7 +103,7 @@ class Curriculum extends MY_Controller
     {
         $curr = new Curr_codelist;
         $pl_id = $this->input->get("pl_id");
-        $query = $curr->db->query("SELECT * FROM curr_codelist WHERE pl_id = {$pl_id} ORDER BY eff_sy DESC LIMIT 5");
+        $query = $curr->db->query("SELECT * FROM curr_codelist WHERE pl_id = {$pl_id} ORDER BY eff_sy DESC ");
         $curriculum = $query->result();
         echo json_encode($curriculum);
     }

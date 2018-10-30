@@ -259,7 +259,6 @@
   });
 
   function showInstructorSched(insID) {
-
     var str = "instructor/get_instuctor_sched?sem=" + pubSem + "&sy=" + pubSY + "&ins_id=" + insID;
     var url = "<?php echo base_url('"+str+"') ?>";
     $("#calendar").fullCalendar('removeEvents');
@@ -274,8 +273,6 @@
        $('#unit-plotted').html(value.unit);
      });
     });
-
-
   }
 
   function loadActiveCurriculum() {
@@ -298,7 +295,6 @@
         });
       },
       error: function () {
-
       }
     });
   }
@@ -306,7 +302,6 @@
   $(document).ready(function () {
 
     $('#tblCurriculum tbody').on('click', 'tr', function () {
-
       var tr = $(this).closest('tr').attr("id");
       var sy = $(this).closest('tr').attr("sy");
       var sem = $(this).closest('tr').attr("sem");
@@ -352,9 +347,7 @@
   }
 
   $(document).ready(function () {
-
     $('#tblSectionList tbody').on('click', 'tr', function () {
-
       var bs_id = $(this).closest('tr').attr("id");
       pubBsID = bs_id;
 

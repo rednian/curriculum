@@ -18,7 +18,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         }
       }
-    }
+//      dd($this->userDepartment());
+      }
+
+
+      private function userDepartment()
+      {
+          $this->load->model('user');
+
+          return $this->user->getById();
+      }
 
     
 

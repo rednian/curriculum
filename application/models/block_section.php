@@ -27,12 +27,18 @@ class Block_section extends MY_Model
 
         return $this->get();
     }
-    public function program($id)
+    public function program(array $data)
     {
         $this->db->select('*')
             ->from('block_section')
-            ->join('program_list', 'program_list.pl_id = block_section.pl_id','left')
-            ->where('block_section.bs_id',$id);
+            ->join('program_list', 'program_list.pl_id = block_section.pl_id','left');
+            if(!empty($data['sy']) && !empty($data['semester'])){
+                $this->db->where('block_section.semister', $data['semester']);
+                $this->db->where('block_section.sy', $data['sy']);
+            }
+            else{
+                $this->db->where('block_section.bs_id', $data['id']);
+            }
         $q = $this->db->get();
 
         return $q->result();

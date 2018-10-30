@@ -150,18 +150,18 @@
                                                         name="year_lvl">
                                                     <option value='' selected="selected" class="hide">Select year level
                                                     </option>
-                                                    <option value="1st">1st</option>
-                                                    <option value="2nd">2nd</option>
-                                                    <option value="3rd">3rd</option>
-                                                    <option value="4th">4th</option>
-                                                    <option value="5th">5th</option>
+                                                    <option value="1st">1st Year</option>
+                                                    <option value="2nd">2nd Year</option>
+                                                    <option value="3rd">3rd Year</option>
+                                                    <option value="4th">4th Year</option>
+                                                    <option value="5th">5th Year</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Sem</label>
+                                            <label class="col-md-3 control-label">Semester</label>
                                             <div class="col-md-9">
                                                 <select id="currsemister" required class="form-control input-sm"
                                                         name="sem">

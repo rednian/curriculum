@@ -216,23 +216,24 @@ class Course extends MY_Controller {
     if ($this->input->method() == 'get' && array_key_exists('event', $_GET)) {
 
         $ss_id = null;
-      $event = $this->input->get('event');
 
-      $user = $this->userInfo;
+        $event = $this->input->get('event');
 
-      $start = date("Y-m-d H:i:s", strtotime($event['start']));
+        $user = $this->userInfo;
 
-      $room_id = $this->get_room_id($event['room']);
+        $start = date("Y-m-d H:i:s", strtotime($event['start']));
 
-      $subject_hour = $this->get_subject_hour(['type' => $event['type'], 'subj_id' => $event['sub_id']]);
+        $room_id = $this->get_room_id($event['room']);
 
-      $schedule = $this->session->userdata('schedule');
+        $subject_hour = $this->get_subject_hour(['type' => $event['type'], 'subj_id' => $event['sub_id']]);
 
-      $time_end = $this->get_time_end(['hour' => $subject_hour['hour'], 'day' => $event['selected_days'], 'start' => $start]);
+        $schedule = $this->session->userdata('schedule');
 
-      $start = date("H:i", strtotime($event['start']));
+        $time_end = $this->get_time_end(['hour' => $subject_hour['hour'], 'day' => $event['selected_days'], 'start' => $start]);
 
-      $this->db->trans_begin();
+        $start = date("H:i", strtotime($event['start']));
+
+        $this->db->trans_begin();
 
       //find the subject id  and block section id on sched_subj table
       $sched_subj = new Sched_subj();
@@ -487,7 +488,7 @@ class Course extends MY_Controller {
     echo json_encode($data);
   }
 
-  public function get_room() 
+  public function get_room()
   {
 
     $room = new Room_list();
@@ -1089,7 +1090,7 @@ class Course extends MY_Controller {
   /*-------------------------- below this line are the private methods ----------------------------------------------*/
   protected function get_time_end($data = [])
   {
-
+      dd($data);
     $minutes = $data['hour'] * 60;
 
     $split = count($data['day']);

@@ -420,7 +420,6 @@ class MY_Model extends CI_Model{
 	    }
 	}
 
-
 	private function insert(){
     $this->db->insert($this::DB_TABLE,$this);
     $this->{$this::DB_TABLE_PK} = $this->db->insert_id();

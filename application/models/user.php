@@ -12,7 +12,7 @@
     	const LAST_NAME = 'user_lname';
     	const MIDDLE_NAME = 'user_mname';
     	
-    public $user_id;
+        public $user_id;
 		public $user_fname;
 		public $user_lname;
 		public $user_mname;
@@ -24,7 +24,15 @@
 		public $user_position;
 		public $dep_id;
 
+		public function getById()
+        {
+            $user = $this->session->userdata('CURRICULUM_logged');
 
+            $this->toJoin = ['user_type'=>'user'];
+//            $this->db->where('user.user_id',$user['id']);
+
+            return $this->get();
+        }
 
 		public function data_table(){
 			$this->user_query();
@@ -41,15 +49,11 @@
 		// 	$this->db->count_all_results();
 		// 	return $this->get();
 		// }
-
-
-
 		// pg_unescape_bytea(data)lic function get_filtered_data(){
 		// 	$this->user_query();
 		// 	$query = $this->db->get();
 		// 	return $query->num_rows();
 		// }
-
 
 		private function user_query(){
 			$order = array('user_fname', 'user_mname','user_lname','user_position','user_department');
@@ -73,8 +77,6 @@
 				}
 
 		}
-
-
 
 		public function get_user($data = array()){
 			if(!empty($data)){

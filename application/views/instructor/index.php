@@ -231,7 +231,7 @@
           <div id="calendar"></div>
         </div>
         <div class="panel-footer clearfix">
-          <small class="pull-right">Total Unit Plotted: <span id="unit-plotted" class="badge badge-success"></span></small>
+          <small class="pull-right">Total Unit Plotted: <span id="unit-plotted" class="badge badge-success">0</span></small>
         </div>
       </div>
     </div>

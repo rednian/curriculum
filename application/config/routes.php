@@ -56,10 +56,11 @@ $route['course'] = 'course';
 $route['cpanel'] = 'cpanel';
 $route['gen_info'] = 'gen_info';
 $route['instructor'] = 'instructor';
-$route['currriculum'] = 'currriculum';
+$route['curriculum'] = 'curriculum';
 $route['courseschedule'] = 'courseschedule';
 
 //$route['products/(:num)/edit'] = 'example/edit/$1';
 $route['(:any)'] = 'errors/error_404';
 $route['404_override'] = 'errors/error_404';
 $route['translate_uri_dashes'] = FALSE;
+
