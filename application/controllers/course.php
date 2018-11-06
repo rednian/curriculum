@@ -211,7 +211,7 @@ class Course extends MY_Controller {
         echo $result;     
   }
 
-  public function save_schedule() 
+  public function save_schedule()
   {
     if ($this->input->method() == 'get' && array_key_exists('event', $_GET)) {
 
@@ -1090,7 +1090,6 @@ class Course extends MY_Controller {
   /*-------------------------- below this line are the private methods ----------------------------------------------*/
   protected function get_time_end($data = [])
   {
-      dd($data);
     $minutes = $data['hour'] * 60;
 
     $split = count($data['day']);
