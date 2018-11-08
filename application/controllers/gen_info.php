@@ -22,10 +22,13 @@ class Gen_info extends MY_Controller
   public function index()
   {
     $this->load->model("Department");
+    $this->load->model('periodic');
+
     $dep = new Department;
 
     $data['dep'] = $dep->get();
     $data['title'] = 'General Information';
+    $data['periods'] = $this->periodic->get();
 
     $this->load->view('includes/header', $data);
     $this->load->view('includes/menu');

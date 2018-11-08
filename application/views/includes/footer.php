@@ -74,6 +74,8 @@
 <script src="<?php echo base_url('assets/js/fullcalendar-rightclick.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/parsley/dist/parsley.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/bootstrap-wizard/js/bwizard.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/bootstrap-daterangepicker/moment.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/apps.min.js'); ?>"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
 <script>

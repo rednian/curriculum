@@ -55,6 +55,7 @@ $route['login'] = 'login';
 $route['course'] = 'course';
 $route['cpanel'] = 'cpanel';
 $route['gen_info'] = 'gen_info';
+$route['genInfoController'] = 'genInfoController';
 $route['instructor'] = 'instructor';
 $route['curriculum'] = 'curriculum';
 $route['courseschedule'] = 'courseschedule';

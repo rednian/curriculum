@@ -419,12 +419,12 @@ class Curriculum extends MY_Controller
                 '', $con) . "_sub_id[]' required class=\"preview-select-title\">
 		                    	<option value='' selected class='hide'>Select subject ...</option>";
         $subject = new Subject;
-        $query = $subject->db->query("SELECT * FROM subject");
+        $query = $subject->db->query("SELECT * FROM subject ORDER BY subj_name");
         $sub = $query->result();
         foreach ($sub as $key2 => $value2) {
-            $display .= "<option value='" . $value2->subj_id . "'>" . $value2->subj_name . "</option>";
+            $display .= "<option value='" . $value2->subj_id . "'>".$value2->subj_code.' - '. $value2->subj_name . "</option>";
         }
-        $display .= "</select>
+        $display .= "</select>       
 		                </td>
 		                <td></td>
 		                <td></td>
@@ -439,8 +439,7 @@ class Curriculum extends MY_Controller
         }
         $display .= "</select>
 		                </td>
-		                <td><a onclick=\"remove_subject($(this).attr('con'),$(this).attr('tr'))\" con='" . str_replace(' ',
-                '', $con) . "' tr='" . $tr . "' title='remove' href=\"javascript:;\"><i class='fa fa-times'></i></a></td>
+		                <td><a onclick=\"remove_subject($(this).attr('con'),$(this).attr('tr'))\" con='" . str_replace(' ', '', $con) . "' tr='" . $tr . "' title='remove' href=\"javascript:;\"><i class='fa fa-times'></i></a></td>
 		            </tr>";
 
         echo $display;

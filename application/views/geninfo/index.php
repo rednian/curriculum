@@ -59,7 +59,7 @@
                 </div>
                   <div class="col-sm-6">
                       <div href="#tab-semester-setup" aria-controls="tab-semester-setup" data-toggle="tab" class="btn-options">
-                          <i class="fa fa-random fa-4x"></i>
+                          <i class="fa fa-calendar-o fa-4x"></i>
                           <div>Semester Setup</div>
                       </div>
                   </div>
@@ -251,6 +251,63 @@
               </form>
             </div>
           </div>
+
+
+          <section class="panel panel-primary tab-inputs hide" id="semester-setup-inputs" tab-toggle="#tab-semester-setup">
+              <div class="panel-heading">
+                  <span class="panel-title">Semester Inputs</span>
+              </div>
+              <div class="panel-body">
+                  <div class="error_message text-danger"><?php echo validation_errors(); ?></div>
+                  <?php echo form_open('geninfocontroller/storeperiod', 'id="frm-period" class="email" data-parsley-validate="true" id="form-setup"'); ?>
+                  <fieldset>
+                      <legend><h5>Semester Information</h5></legend>
+                    <div class="form-group">
+                      <label for="sy">School Year</label>
+                      <select name="school_year" id="" class="form-control input-sm">
+                          <?php for ($i = date('Y') + 1; $i >= 2005; $i--): ?>
+                              <option value="<?php echo $i.'-'.($i + 1);?>" <?php echo $retVal = (date('Y') == $i) ? 'selected': '';?> ><?php echo $i.'-'.($i + 1);?></option>
+                          <?php endfor;?>
+
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="semester">Semester</label>
+                      <select name="semester" id="semester" class="form-control input-sm">
+                          <option selected disabled>-Select Semester-</option>
+                          <option value="first semester">First Semester</option>
+                          <option value="second semester">Second Semester</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="date">Date</label>
+                      <input type="text" name="date_semester" class="form-control input-sm" id="date-semester">
+                  </div>
+                  </fieldset>
+                  <fieldset>
+                      <legend><h5>Period Information</h5></legend>
+                      <div class="form-group">
+                          <select name="period_id" id="period" class="form-control input-sm">
+                              <option selected disabled >-Select Period-</option>
+                              <?php if (!empty($periods)):?>
+                                <?php foreach ($periods as $period):?>
+                                      <option value="<?php echo $period->periodic_id?>"><?php echo ucwords($period->period);?></option>
+                                <?php endforeach; ?>
+                              <?php endif;?>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="date-period">Date</label>
+                          <input name="date_period" type="text" id="date-period" class="form-control input-sm">
+                      </div>
+                  </fieldset>
+                  <div class="form-group">
+                      <button class="btn btn-sm btn-success pull-right" type="submit">Save</button>
+                  </div>
+                  <?php echo form_close();?>
+
+              </div>
+          </section>
 
         </div>
       </div>
@@ -546,6 +603,36 @@
             </table>
           </div>
         </div>
+
+          <section role="tabpanel" id="tab-semester-setup" class="panel panel-primary tab-pane">
+              <div class="panel-heading">
+                  <div class="panel-heading-btn">
+                      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                  </div>
+                  <h4 class="panel-title">Semester Setup</h4>
+              </div>
+              <div class="panel-body">
+                  <table id="tbl-semester-setup" class="table table-hover table-striped table-bordered tblContent" style="margin-top:0px!important">
+                      <thead>
+                      <tr>
+                          <th>School Year</th>
+                          <th>Semester</th>
+                          <th>Semester Start</th>
+                          <th>Semester End</th>
+                          <th>Period</th>
+                          <th>Period Start</th>
+                          <th>Period End</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody></tbody>
+                  </table>
+              </div>
+          </section>
+
       </div>
     </div>
   </div>
@@ -601,9 +688,43 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-  
+    $(function() {
+      $('input[name="date_semester"]#date-semester').daterangepicker();
+      $('input[name="date_period"]#date-period').daterangepicker();
 
+      createSemesterSetup();
+      semesterAll();
+    });
 
+    function semesterAll() {
+      $('table#tbl-semester-setup').DataTable({
+        ajax:'<?php echo base_url('geninfocontroller/allsemester')?>',
+        columns: [
+          {'data': 'school_year'},
+          {'data': 'semester'},
+          {'data': 'semester_start'},
+          {'data': 'semester_end'},
+          {'data': 'period'},
+          {'data': 'period_start'},
+          {'data': 'period_end'},
+        ]
+      });
+    }
+    
+    function createSemesterSetup() {
+      $('form#frm-period').submit(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url:'<?php echo base_url('geninfocontroller/storeperiod'); ?>',
+          data:  $(this).serialize(),
+          type:'post',
+          dataType:'html'
+        }).done(function(data) {
+          console.log(data);
+        });
+      });
+    }
   // $(document).ready(function(){
 
   //   $('#subject-name').change(function(){

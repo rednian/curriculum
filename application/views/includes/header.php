@@ -31,6 +31,7 @@
     <link href="<?php echo base_url('assets/plugins/parsley/src/parsley.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap-form-validation/css/formValidation.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap-wizard/css/bwizard.min.css') ?>" rel="stylesheet" />
+    <link href="<?php echo base_url('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" />
 
     <!-- ================== END BASE CSS STYLE ================== -->
     
