@@ -17,4 +17,10 @@ class Errors extends MY_Controller{
         $data['title'] = 'Page not found';
         $this->load->view('errors/error_404',$data);
     }
+
+    public function error_403()
+    {
+        $data['title'] = 'Access Forbidden';
+        $this->load->view('errors/error_403',$data);
+    }
 }

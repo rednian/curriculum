@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |				 cubrid, ibase, mssql, mysql, mysqli, oci8,
 |				 odbc, pdo, postgre, sqlite, sqlite3, sqlsrv
 |	['dbprefix'] You can add an optional prefix, which will be added
-|				 to the table name when using the  Query Builder class
+    |				 to the table name when using the  Query Builder class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
 |	['db_debug'] TRUE/FALSE - Whether database errors should be displayed.
 |	['cache_on'] TRUE/FALSE - Enables/disables query caching
@@ -75,12 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.1.207',
-//	  'hostname' => 'localhost',
-	'username' => 'redz',
-//	  'username' => 'root',
-	'password' => '12345',
-//	  'password' => '',
+//	'hostname' => '192.168.1.207',
+	  'hostname' => 'localhost',
+//	'username' => 'redz',
+	  'username' => 'root',
+//	'password' => '12345',
+	  'password' => '',
 	'database' => 'curriculum_final',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

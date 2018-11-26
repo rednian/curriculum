@@ -10,6 +10,12 @@ class Instructor extends MY_Controller {
 		$this->load->model("Block_section");
         $this->load->model("Sched_subj");
 		$this->load->model("subj_sched_day");
+
+		if ( $this->userType() != 'dean' && $this->userType() != 'admin' ){
+            $data['title'] = 'Access Forbidden';
+            $this->load->view('errors/error_403',$data);
+            exit();
+        }
 	}
 
   	public function index()

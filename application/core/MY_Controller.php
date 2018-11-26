@@ -18,15 +18,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         }
       }
-//      dd($this->userDepartment());
       }
 
 
-      private function userDepartment()
+      protected function userType()
       {
           $this->load->model('user');
 
-          return $this->user->getById();
+          $users = $this->user->getById();
+
+          if (!empty($users)){
+              foreach ($users as $user){
+                    return strtolower($user->user_type);
+                    break;
+              }
+          }
       }
 
     

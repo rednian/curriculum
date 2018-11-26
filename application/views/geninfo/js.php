@@ -12,9 +12,11 @@
       var isChecked = e.currentTarget.checked;
       if (isChecked == true) {
         $("#btnSetRate").removeClass('hide');
+        $('div#category-wrapper').removeClass('hide');
       }
       else {
         $("#btnSetRate").addClass('hide');
+        $('div#category-wrapper').addClass('hide');
       }
     });
 
@@ -520,6 +522,7 @@
       e.preventDefault();
 
       if ($("input#shsCheckbox[type=checkbox]").is(':checked')) {
+        alert();
         if (Object.keys(addedRate).length == 0) {
           showMessage('Error', 'Please add set subject rate basis.', 'error');
         }

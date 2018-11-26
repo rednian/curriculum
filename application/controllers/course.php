@@ -17,6 +17,13 @@ class Course extends MY_Controller {
     $this->load->model('Sched_time');
     $this->load->model('Curr_codelist');
     $this->load->model('Subj_sched_day');
+
+      if ( $this->userType() != 'dean' && $this->userType() != 'admin' ){
+          $data['title'] = 'Access Forbidden';
+          $this->load->view('errors/error_403',$data);
+          exit();
+      }
+
   }
 
   public function index() 

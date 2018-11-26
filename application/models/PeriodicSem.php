@@ -30,7 +30,6 @@ class PeriodicSem extends MY_Model
             ->from('periodic_sem')
             ->join('school_semester', 'periodic_sem.ss_id = school_semester.ss_id')
             ->join('periodic', 'periodic_sem.periodic_id = periodic.periodic_id');
-
             $query = $this->db->get();
 
         return $query->result();

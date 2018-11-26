@@ -23,12 +23,15 @@ class Gen_info extends MY_Controller
   {
     $this->load->model("Department");
     $this->load->model('periodic');
+    $this->load->model('subjectCategory');
 
     $dep = new Department;
 
     $data['dep'] = $dep->get();
     $data['title'] = 'General Information';
     $data['periods'] = $this->periodic->get();
+    $data['categories'] = $this->subjectCategory->get();
+
 
     $this->load->view('includes/header', $data);
     $this->load->view('includes/menu');
@@ -265,6 +268,8 @@ class Gen_info extends MY_Controller
       array('required' => 'You must provide a %s.'));
     $this->form_validation->set_rules('split', 'Split', 'required|is_natural_no_zero',
       array('required' => 'You must provide a %s.'));
+    $this->form_validation->set_rules('sc_id', 'Subject Category', 'required|is_natural_no_zero',
+          array('required' => 'You must provide a %s.'));
 
     if ($this->form_validation->run() == false) {
       $errors = validation_errors();

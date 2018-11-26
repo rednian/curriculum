@@ -25,13 +25,13 @@ class genInfoController extends MY_Controller{
         if (!empty($periodicSemesters)){
             foreach ($periodicSemesters as $period){
                 $data[] = [
-                    'school_year'=>$period->school_year,
-                    'semester'=>ucwords($period->semester),
-                    'semester_start'=> date('M d, Y', strtotime($period->semester_start)),
-                    'semester_end'=> date('M d, Y', strtotime($period->semester_end)),
-                    'period'=>ucwords($period->period),
-                    'period_start'=> date('M d, Y', strtotime($period->period_start)),
-                    'period_end'=> date('M d, Y', strtotime($period->period_end)),
+                    $period->school_year,
+                    ucwords($period->semester),
+                    date('M d, Y', strtotime($period->semester_start)),
+                    date('M d, Y', strtotime($period->semester_end)),
+                    ucwords($period->period),
+                    date('M d, Y', strtotime($period->period_start)),
+                    date('M d, Y', strtotime($period->period_end)),
                 ];
             }
         }
@@ -44,7 +44,6 @@ class genInfoController extends MY_Controller{
         if ( $this->input->server('REQUEST_METHOD') == 'POST'){
 
             $data = $this->input->post();
-
             $semesterDate = explode('-',$data['date_semester']);
             $semesterDateStart = date('Y-m-d',strtotime($semesterDate[0]));
             $semesterDateEnd = date('Y-m-d',strtotime($semesterDate[1]));

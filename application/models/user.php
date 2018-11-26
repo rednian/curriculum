@@ -28,10 +28,13 @@
         {
             $user = $this->session->userdata('CURRICULUM_logged');
 
-            $this->toJoin = ['user_type'=>'user'];
-//            $this->db->where('user.user_id',$user['id']);
+            $this->db->select('*')
+                ->from('user')
+                ->join('user_type','user.user_type_id = user_type.user_type_id')
+                ->where('user.user_id',$user['id']);
+            $query = $this->db->get();
 
-            return $this->get();
+            return $query->result();
         }
 
 		public function data_table(){

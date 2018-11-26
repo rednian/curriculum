@@ -397,10 +397,9 @@
     function getSubjectTags() {
         $.ajax({
             url: "<?php echo base_url('curriculum/getSubjectLoadTags') ?>",
-            dataType: "json",
-            success: function (data) {
-                json = data;
-            }
+            dataType: "json"
+        }).done(function(data) {
+          json = data;
         });
     }
 

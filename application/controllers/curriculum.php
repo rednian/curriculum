@@ -13,7 +13,11 @@ class Curriculum extends MY_Controller
         $this->load->model('Cur_subject');
         $this->load->model('Pre_requisite');
 
-
+        if ( $this->userType() != 'dean' && $this->userType() != 'admin' ){
+            $data['title'] = 'Access Forbidden';
+            $this->load->view('errors/error_403',$data);
+            exit();
+        }
     }
 
     public function index()
@@ -184,29 +188,31 @@ class Curriculum extends MY_Controller
             $program = $value->prog_name;
             $major = $value->major;
         }
-        $display .= '<form id="formSaveRevisionCurriculum" action=" ' . base_url('curriculum/save_revision') . '" method="post">';
-        $display .= '<div class="curr-container">';
-        $display .= '<input type="hidden" name="cur_id" value="' . $cur_id . '">';
-        $display .= '<div class="curr-preview-header">';
-        $display .= '<center>';
-        $display .= '<h4 class="m-b-0"> ' . strtoupper($program) . '</h4>';
-        $display .= '<h6 class="m-t-0 m-b-0">' . ucwords($major) . '</h6>';
-        $display .= '<small>';
-        $display .= 'Revised Curriculum Effectivity: Semester';
-        $display .= '<select class="preview-select-sem">';
-        $display .= '<option selected class="hide">' . $currInfo[$cur_id]->eff_sem . '</option>';
-        $display .= '<option>1st Semester</option>';
-        $display .= '<option>2nd Semester</option>';
-        $display .= '</select>';
-        $display .= 'School Year';
-        $display .= '<select class="preview-select-sy">';
-        $display .= '<option selected class="hide">' . $currInfo[$cur_id]->eff_sy . '</option>';
+        $user = $this->userInfo;
 
-        for ($x = date('Y'); $x >= 2000; $x--) {
-            $display .= "<option>" . $x . "-" . ($x + 1) . "</option>";
-        }
-        $display .= "</select>
-                                </small>
+        if($user->dep_id != 3) {
+            $display .= '<form id="formSaveRevisionCurriculum" action=" ' . base_url('curriculum/save_revision') . '" method="post">';
+            $display .= '<div class="curr-container">';
+            $display .= '<input type="hidden" name="cur_id" value="' . $cur_id . '">';
+            $display .= '<div class="curr-preview-header">';
+            $display .= '<center>';
+            $display .= '<h4 class="m-b-0"> ' . strtoupper($program) . '</h4>';
+            $display .= '<h6 class="m-t-0 m-b-0">' . ucwords($major) . '</h6>';
+            $display .= '<small>';
+            $display .= 'Revised Curriculum Effectivity: Semester';
+            $display .= '<select class="preview-select-sem">';
+            $display .= '<option selected class="hide">' . $currInfo[$cur_id]->eff_sem . '</option>';
+            $display .= '<option>1st Semester</option>';
+            $display .= '<option>2nd Semester</option>';
+            $display .= '</select>';
+            $display .= 'School Year';
+            $display .= '<select class="preview-select-sy">';
+            $display .= '<option selected class="hide">' . $currInfo[$cur_id]->eff_sy . '</option>';
+
+            for ($x = date('Y'); $x >= 2000; $x--) {
+                $display .= "<option>" . $x . "-" . ($x + 1) . "</option>";
+            }
+            $display .= "</select></small>
                             </center>
                         </div>
                         <div id=\"existing_ys_container\"></div>
@@ -219,7 +225,12 @@ class Curriculum extends MY_Controller
                         <button onclick=\"cancelSave()\" type='button' class=\"btn btn-danger btn-sm\">Cancel</button>
                         <button id=\"btnSetActiveInactiveCurriculum\" onclick=\"setActiveInactiveCurriculum()\" type='button' class=\"btn btn-inverse btn-sm pull-right m-l-5\">" . ucfirst($currStatus) . " Curriculum</button>
                     </div></form>";
+        }
+        else{
+
+        }
         echo $display;
+
     }
 
     public function addYearSem()
@@ -234,18 +245,14 @@ class Curriculum extends MY_Controller
         $ys = new Year_sem;
         $curr_subject = new Cur_subject;
         $cur_id = $this->input->get('cur_id');
-
         $ys->db->order_by("ys_id");
         $list = $ys->search(array("cur_id" => $cur_id));
         $array = array();
         $display = "";
         $totalUnit = 0;
-
         foreach ($list as $key => $value) {
-
             // CHECK IF YS NOT EMPTY
             $countSub = $curr_subject->search(array("ys_id" => $value->ys_id));
-
             if (!empty($countSub)) {
                 $display .= "<div id='ys_" . str_replace(' ', '', $value->year . "-" . $value->semister) . "' class=\"curr-preview-body\">
                         <center>
@@ -266,20 +273,16 @@ class Curriculum extends MY_Controller
                                 <tbody>";
                 $query = $ys->db->query("SELECT * FROM subject,cur_subject WHERE cur_subject.ys_id = {$value->ys_id} AND cur_subject.subj_id = subject.subj_id ");
                 $result = $query->result();
-
                 foreach ($result as $key1 => $value1) {
-
                     $display .= "<tr id='" . $value1->subj_code . "'>
 									                <td>" . $value1->subj_code . "</td>
 									                <td>
 									                    <select onchange=\"setNameSelect2($(this).closest('tr').find('td select.js-example-basic-multiple').attr('name', 'subj_'+$(this).val()+'[]'))\" name='ys_" . str_replace(' ',
                             '', $value->year . "-" . $value->semister) . "_sub_id[]' required class=\"preview-select-title\">
 									                    	<option class='hide' selected value='" . $value1->subj_id . "'>" .$value1->subj_name . "</option>";
-
                     $subject = new Subject;
                     $query = $subject->db->query("SELECT * FROM subject ORDER BY subject.subj_name ASC");
                     $sub = $query->result();
-
                     foreach ($sub as $key2 => $value2) {
                         $display .= "<option value='" . $value2->subj_id . "'>" .$value2->subj_code.' - '. $value2->subj_name . "</option>";
                     }
@@ -290,11 +293,9 @@ class Curriculum extends MY_Controller
 									                <td>" . ($value1->lec_unit + $value1->lab_unit) . "</td>
 									                <td>
 									                	<select name='subj_" . $value1->subj_id . "[]' placeholder='Select Pre-requisites' style='outline:none;border:none' class=\"form-control js-example-basic-multiple\" multiple=\"multiple\">";
-
                     $subject = new Subject;
                     $query = $subject->db->query("SELECT * FROM subject ORDER BY subject.subj_name ASC");
                     $sub = $query->result();
-
                     // GET PREREQUISITES //
                     $prq = new Pre_requisite;
                     $prq->toJoin = array("Subject" => "Pre_requisite");
@@ -305,7 +306,6 @@ class Curriculum extends MY_Controller
                         }
                     }
                     // END GET PREREQUISITES //
-
                     foreach ($sub as $key2 => $value2) {
                         $display .= "<option value='" . $value2->subj_id . "'>" . $value2->subj_code . "</option>";
                     }
@@ -314,7 +314,6 @@ class Curriculum extends MY_Controller
 									                <td><a onclick=\"remove_subject($(this).attr('con'),$(this).attr('tr'))\" con='ys_" . str_replace(' ',
                             '', $value->year . "-" . $value->semister) . "' tr='" . $value1->subj_code . "' title='remove' href=\"javascript:;\"><i class='fa fa-times'></i></a></td>
 									            </tr>";
-
                     $totalUnit += ($value1->lec_unit + $value1->lab_unit);
                 }
                 $display .= "</tbody>

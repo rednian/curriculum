@@ -56,13 +56,13 @@ function convert_time($interval = false){
   return $this->lz($hours) . ":" . $this->lz($minutes) . ":" . $this->lz($seconds);
 }
 
-function dd($data = array())
-{
-  $array = array();
-  echo "<pre>";
-  var_export($data);
-  die();
-}
+//function dd($data = array())
+//{
+//  $array = array();
+//  echo "<pre>";
+//  var_export($data);
+//  die();
+//}
 
 function FileSizeConvert($bytes)
 {

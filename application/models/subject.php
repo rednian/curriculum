@@ -20,12 +20,25 @@ class Subject extends MY_Model
   public $lab_hour;
   public $split;
   public $subj_type;
+  public $sc_id;
 
   public function all()
   {
     $this->db->order_by('LOWER(subj_name)','ASC');
     return $this->get();
 
+  }
+
+  public function curriculumByCategory($ys_id = null)
+  {
+      $this->db->select('*')
+          ->from('subject')
+          ->join('cur_subject','cur_subject.subj_id = subject.subj_id')
+          ->join('subject_category','subject_category.sc_id = subject_category.sc_id')
+          ->where('cur_subject.ys_id', $ys_id);
+      $query = $this->db->get();
+
+      return $query->result();
   }
 
   public function get_curriculum($data = array())

@@ -198,16 +198,24 @@
           <div class="panel panel-primary tab-inputs hide" id="course-inputs" tab-toggle="#tab-course">
             <div class="panel-heading">
               <span class="panel-title">Course Inputs</span>
-              <span class="pull-right">
-		                    	<input type="checkbox" id="shsCheckbox"> Senior High School
-		                    </span>
+              <span class="pull-right"><input type="checkbox" id="shsCheckbox"> Senior High School</span>
             </div>
             <div class="panel-body" style="padding:5px">
-              <!-- <form data-parsley-validate="true" method="post" id="formAddSubject" action="<?php echo base_url('gen_info/subjectSave') ?>"> -->
               <div class="error_message text-danger"><?php echo validation_errors(); ?></div>
               <?php echo form_open('gen_info/subjectSave', 'class="email" data-parsley-validate="true" id="formAddSubject"'); ?>
 
               <input type="hidden" name="subj_id">
+                <div class="form-group m-b-5 hide" id="category-wrapper">
+                    <label for="category">Subject Category</label>
+                    <select name="sc_id" id="category" class="form-control">
+                        <option selected disabled >Select Category</option>
+                        <?php if (!empty($categories)):?>
+                            <?php foreach ($categories as $category):?>
+                                <option value="<?php echo $category->sc_id?>"><?php echo ucwords($category->category_name); ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
               <div class="form-group m-b-5">
                 <label>Code</label>
                 <input autofocus data-parsley-required="false" name="subj_code" id="subj_code" type="text" class="form-control input-sm" autocomplete="off">
@@ -251,7 +259,6 @@
               </form>
             </div>
           </div>
-
 
           <section class="panel panel-primary tab-inputs hide" id="semester-setup-inputs" tab-toggle="#tab-semester-setup">
               <div class="panel-heading">
@@ -490,7 +497,7 @@
           </div>
         </div>
 
-        <div role="tabpanel" id="tab-course" class="panel panel-primary tab-pane">
+          <div role="tabpanel" id="tab-course" class="panel panel-primary tab-pane">
           <div class="panel-heading">
             <div class="panel-heading-btn">
               <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -518,7 +525,7 @@
           </div>
         </div>
 
-        <div role="tabpanel" id="tab-instructor" class="panel panel-primary tab-pane">
+          <div role="tabpanel" id="tab-instructor" class="panel panel-primary tab-pane">
           <div class="panel-heading">
             <div class="panel-heading-btn">
               <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -579,7 +586,7 @@
           </div>
         </div>
 
-        <div role="tabpanel" id="tab-others" class="panel panel-primary tab-pane">
+          <div role="tabpanel" id="tab-others" class="panel panel-primary tab-pane">
           <div class="panel-heading">
             <div class="panel-heading-btn">
               <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -694,19 +701,24 @@
 
       createSemesterSetup();
       semesterAll();
+
     });
+
+    function showShCategory() {
+
+    }
 
     function semesterAll() {
       $('table#tbl-semester-setup').DataTable({
         ajax:'<?php echo base_url('geninfocontroller/allsemester')?>',
         columns: [
-          {'data': 'school_year'},
-          {'data': 'semester'},
-          {'data': 'semester_start'},
-          {'data': 'semester_end'},
-          {'data': 'period'},
-          {'data': 'period_start'},
-          {'data': 'period_end'},
+          {'data': 0},
+          {'data': 1},
+          {'data': 2},
+          {'data': 3},
+          {'data': 4},
+          {'data': 5},
+          {'data': 6},
         ]
       });
     }
@@ -721,7 +733,8 @@
           type:'post',
           dataType:'html'
         }).done(function(data) {
-          console.log(data);
+          var semesterList = $('table#tbl-semester-setup').DataTable();
+              semesterList.ajax.reload(null, false);
         });
       });
     }
