@@ -15,9 +15,9 @@ class YearSem extends Eloquent
     public $timestamps = false;
     protected $fillable = ['cur_id', 'year', 'semister'];
 
-    public function curriculum()
+    public function subject()
     {
-        return $this->hasMany(YearSem::class, 'ys_id');
+        return $this->belongsToMany(Subjects::class, 'cur_subject','ys_id','subj_id');
     }
 
 }

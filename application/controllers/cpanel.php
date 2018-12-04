@@ -24,15 +24,7 @@ class Cpanel extends MY_Controller
     $this->load->model("User_type");
     $type = new User_type;
 
-//    $user = Users::with('department')->get();
-        $users = Users::first();
-      dd($users->department->dep_name);
-      foreach ($users as $user){
-        }
-
-
     $cur = new Curr_codelist();
-
 
     $data['user_type'] = $type->get();
     $data['department'] = $this->department();

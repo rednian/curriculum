@@ -16,7 +16,7 @@ class Categories extends Eloquent
 
     public function subject()
     {
-        return $this->hasMany(SubjectCategories::class, 'sc_id');
+        return $this->belongsToMany(Subjects::class,'category_subject','c_id','subj_id')->withPivot('school_year','semester');
     }
 
 }

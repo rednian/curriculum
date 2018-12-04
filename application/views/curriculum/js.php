@@ -339,6 +339,24 @@
     // ADD SUBJECTS //
     var tr = 1;
 
+    function addShSubject(con) {
+      $.ajax({
+        url: "<?php echo base_url('curriculum/add_subject') ?>",
+        data: {tr: tr, con: con},
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+          $("#" + con + " table.table-curr").append(data);
+          tr++;
+          $("select.js-example-basic-multiple").select2('destroy');
+          $("select.js-example-basic-multiple").select2();
+        },
+        error: function () {
+
+        }
+      });
+    }
+
     function add_subject(con) {
         $.ajax({
             url: "<?php echo base_url('curriculum/add_subject') ?>",

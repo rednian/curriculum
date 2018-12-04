@@ -24,14 +24,16 @@ class Subjects extends Eloquent {
         'sc_id'
         ];
 
-    public function categories()
+
+
+    public function category()
     {
         return $this->belongsToMany(Categories::class,'category_subject','subj_id','c_id')->withPivot('school_year','semester');
     }
 
-    public function curriculum()
+    public function yearSem()
     {
-        return $this->hasMany(CurriculumSubjects::class, 'subj_id');
+        return $this->belongsToMany(YearSem::class,'cur_subject','subj_id','ys_id');
     }
 
 }

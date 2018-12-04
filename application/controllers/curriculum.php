@@ -242,14 +242,213 @@ class Curriculum extends MY_Controller
 
     public function getYearSem()
     {
+        $cur_id = $this->input->get('cur_id');
+
+        $yearSem = YearSem::where('cur_id',$cur_id)->orderBy('ys_id')->get();
+
+        $array = $display = null;
+        $totalUnit = 0;
+        $user = $this->userInfo;
+
+
+
+        foreach ($yearSem as $semester){
+            $curriculumSubject = CurriculumSubjects::where('ys_id',$semester->ys_id)->get();
+            if(!empty($curriculumSubject)){
+                $display .= '<div id="ys_'.str_replace(' ', '', $semester->year . "-" . $semester->semister).'">';
+                $display .= '    <center>';
+                $display .= '      <input type="hidden" name="txt_ys[]" value="'.$semester->year . " - " . $semester->semister.'">';
+                $display .= '      <h6 class="m-t-30 m-b-0">'.$semester->year . " - " . $semester->semister.'</h6>';
+                $display .= '<table class="table table-curr">';
+                $display .= '    <thead>';
+                $display .= '        <tr>';
+                $display .= '        <td>Course</td>';
+                $display .= '        <td>Title</td>';
+                $display .= '        <td>Lec</td>';
+                $display .= '        <td>Lab</td>';
+                $display .= '        <td>Unit</td>';
+                $display .= '        <td class="col-md-1">Pre-requisites</td>';
+                $display .= '        <td></td>';
+                $display .= '        </tr>';
+                $display .= '    </thead>';
+                $display .= '    <body>';
+
+                $categoriesSubject = Categories::with(['subject.yearsem'=>function($query) use ($semester){
+                    $query->where('year_sem.ys_id',$semester->ys_id);
+                }])->get();
+
+
+                //if senior high department then display the senior high view
+                if ($user->dep_id == 4){
+                    foreach ($categoriesSubject as $category){
+                        $display .= '<tr class="info">';
+                        $display .= '    <th colspan="7" class="text-center">'.ucwords($category->category_name).'</th>';
+                        $display .= '</tr>';
+                        foreach ($category->subject as $subject){
+                            $display .='<tr id="'.$subject->subj_code.'">';
+                        $display .='    <td>'.$subject->subj_code.'</td>';
+                        $display .='    <td>';
+                        $display .= '<select class="preview-select-title" >';
+
+                            foreach ($subject->yearsem as $yearSem){
+                                $name = str_replace(' ', '', $yearSem->year .''. $yearSem->semister);
+                                $display .='<select onchange="setNameSelect2($(this).closest(\'tr\').find(\'td select.js-example-basic-multiple\').attr(\'name\', \'subj_\'+$(this).val()+\'[]\'))" class="preview-select-title" name="ys_'.$name.'_sub_id[]">';
+                                $display .='  <option class="hide" selected value="'.$subject->subj_id.'" >'.$subject->subj_name . '</option>';
+                            }
+
+                        $subjects = Subjects::orderBy('subj_name')->orderBy('subj_code')->get();
+                        foreach ($subjects as $subjectList){
+                            if($subject->subj_id == $subjectList->subj_id){
+                                $display .= '<option selected value="'.$subjectList->subj_id.'">'.$subjectList->subj_code.' - '. $subjectList->subj_name.'</option>';
+                            }
+                            else{
+                                $display .= '<option value="'.$subjectList->subj_id.'">'.$subjectList->subj_code.' - '. $subjectList->subj_name.'</option>';
+                            }
+                        }
+
+                        $display .='        </select>';
+                        $display .='    </td>';
+                        $display .='    <td>'.$subject->lec_unit.'</td>';
+                        $display .='    <td>'.$subject->lab_unit.'</td>';
+                        $display .='    <td>'.($subject->lec_unit + $subject->lab_unit).'</td>  ';
+                        $display .='    <td>';
+                        $display .='        <select name="subj_'.$subject->subj_id.'[]" multiple="multiple" class="form-control js-example-basic-multiple" style="outline:none;border:none" placeholder="Select Pre-requisites">';
+
+                        $preRequisites = PreRequisite::with('subject')->where('cs_id',$subject->cs_id)->get();
+                        if (!empty($preRequisites)){
+                            foreach ($preRequisites as  $preRequisite){
+                                $display .= '<option selected value="' . $preRequisite->subject->subj_id . '">'. $preRequisite->subject->subj_code . '</option>';
+                            }
+                        }
+
+                        foreach ($subjects as $subjectList){
+                            $display .= '<option value="'.$subjectList->subj_id.'">'.$subjectList->subj_code.' - '. $subjectList->subj_name.'</option>';
+                        }
+
+                        $display .='        </select>';
+                        $display .='    </td>';
+                        $display .='    <td>';
+                            foreach ($subject->yearsem as $yearSem){
+                                $display .='        <a onclick="remove_subject($(this).attr(\'con\'),$(this).attr(\'tr\'))" con="ys_'.str_replace(' ','', $yearSem->year . "-" . $yearSem->semister).'" tr="'. $subject->subj_code .'" title="remove" href="javascript:;">';
+                                $display .='        <i class="fa fa-times"></i>';
+                                $display .='        </a>';
+                            }
+
+                        $display .='    </td>';
+                        $display .='</tr>';
+                        }
+
+                        $display .= '        <tr>';
+                        $display .= '            <td colspan="5">';
+                        $display .= '                <button onclick="addShSubject($(this).attr(\'con\'))" con="ys_' . str_replace(' ', '', $semester->year . "-" . $semester->semister) . '" class="btn btn-xs btn-default btn-add-subject" type="button">';
+                        $display .='                    Add Subject';
+                        $display .= '                </button>';
+                        $display .= '            </td>';
+                        $display .= '        </tr>';
+                    }
+                    $display .= '    </body>';
+                    $display .= '    <tfooter>';
+                    $display .= '        <tr>';
+                    $display .= '            <td colspan="5">';
+                    $display .= '            <td colspan="2">    Total Unit:'. $totalUnit .'</td>';
+                    $display .= '        </tr>';
+                    $display .= '    </tfooter>';
+                    $display .= '</table>';
+                    $display .= '    </center>';
+                    $display .= '</div>';
+                }
+                else{
+
+                    $subjects = Subjects::with(['yearsem'=>function($query) use ($semester){
+                        $query->where('year_sem.ys_id', $semester->ys_id);
+                    }])->get()->chunk(10);
+                    var_dump($subjects);
+                    foreach ($subjects as $subject){
+//                        dd($subject);
+                        $display .='<tr id="'.$subject->subj_code.'">';
+//                        $display .='    <td>'.$subject->subj_code.'</td>';
+//                        $display .='    <td>';
+////                        foreach ($subject->yearsem as $semester){
+////                            $name = str_replace(' ', '', $semester->year .''. $semester->semister);
+////                            $display .='        <select onchange="setNameSelect2($(this).closest(\'tr\').find(\'td select.js-example-basic-multiple\').attr(\'name\', \'subj_\'+$(this).val()+\'[]\'))" class="preview-select-title" name="ys_'.$name.'_sub_id[]">';
+////                            $display .='            <option class="hide" selected value="'.$subject->subj_id.'" >'.$subject->subj_name . '</option>';
+////                        }
+////
+////
+//                        $subjects = Subjects::orderBy('subj_name')->orderBy('subj_code')->get();
+//                        foreach ($subjects as $subject){
+//                            $display .= '<option value="'.$subject->subj_id.'">'.$subject->subj_code.' - '. $subject->subj_name.'</option>';
+//                        }
+//
+//                        $display .='        </select>';
+//                        $display .='    </td>';
+//                        $display .='    <td>'.$subject->lec_unit.'</td>';
+//                        $display .='    <td>'.$subject->lab_unit.'</td>';
+//                        $display .='    <td>'.($subject->lec_unit + $subject->lab_unit).'</td>  ';
+//                        $display .='    <td>';
+//                        $display .='        <select name="subj_'.$subject->subj_id.'[]" multiple="multiple" class="form-control js-example-basic-multiple" style="outline:none;border:none" placeholder="Select Pre-requisites">';
+//
+//                        $preRequisites = PreRequisite::with('subject')->where('cs_id',$subject->cs_id)->get();
+//                        if (!empty($preRequisites)){
+//                            foreach ($preRequisites as  $preRequisite){
+//                                $display .= '<option selected value="' . $preRequisite->subject->subj_id . '">'. $preRequisite->subject->subj_code . '</option>';
+//                            }
+//                        }
+//
+//                        foreach ($subjects as $subject){
+//                            $display .= '<option value="'.$subject->subj_id.'">'.$subject->subj_code.' - '. $subject->subj_name.'</option>';
+//                        }
+//
+//                        $display .='        </select>';
+//                        $display .='    </td>';
+//                        $display .='    <td>';
+//                        $display .='        <a onclick="remove_subject($(this).attr(\'con\'),$(this).attr(\'tr\'))" con="ys_'.str_replace(' ','', $curriculum->yearSem->year . "-" . $curriculum->yearSem->semister).'" tr="'. $curriculum->subj_code .'" title="remove" href="javascript:;">';
+//                        $display .='        <i class="fa fa-times"></i>';
+//                        $display .='        </a>';
+//                        $display .='    </td>';
+                        $display .='</tr>';
+                    }
+                    $display .= '    </body>';
+                    $display .= '    <tfooter>';
+                    $display .= '        <tr>';
+                    $display .= '            <td colspan="5">';
+                    $display .= '                <button onclick="add_subject($(this).attr(\'con\'))" con="ys_' . str_replace(' ', '', $semester->year . "-" . $semester->semister) . '" class="btn btn-xs btn-default btn-add-subject" type="button">';
+                    $display .='                    Add Subject';
+                    $display .= '                </button>';
+                    $display .= '            </td>';
+                    $display .= '            <td colspan="2">    Total Unit:'. $totalUnit .'</td>';
+                    $display .= '        </tr>';
+                    $display .= '    </tfooter>';
+                    $display .= '</table>';
+                    $display .= '    </center>';
+                    $display .= '</div>';
+                }
+
+
+
+
+                $array[] =$display;
+                $totalUnit = 0;
+                echo json_encode($array);
+            }
+
+        }
+    }
+
+
+
+    public function getYearSem1()
+    {
         $ys = new Year_sem;
         $curr_subject = new Cur_subject;
         $cur_id = $this->input->get('cur_id');
         $ys->db->order_by("ys_id");
         $list = $ys->search(array("cur_id" => $cur_id));
+
         $array = array();
         $display = "";
         $totalUnit = 0;
+
         foreach ($list as $key => $value) {
             // CHECK IF YS NOT EMPTY
             $countSub = $curr_subject->search(array("ys_id" => $value->ys_id));
@@ -402,6 +601,44 @@ class Curriculum extends MY_Controller
                             </table>
                         </center>
                      </div>";
+
+        echo $display;
+    }
+
+    public function addShSubject()
+    {
+        $tr = $this->input->get("tr");
+        $con = $this->input->get("con");
+        $display = "";
+        $display .= "<tr id='" . $tr . "'>
+		                <td>...</td>
+		                <td>
+                    		<select onchange=\"setNameSelect2($(this).closest('tr').find('td select.js-example-basic-multiple').attr('name', 'subj_'+$(this).val()+'[]'))\" name='" . str_replace(' ',
+                '', $con) . "_sub_id[]' required class=\"preview-select-title\">
+		                    	<option value='' selected class='hide'>Select subject ...</option>";
+        $subject = new Subject;
+        $query = $subject->db->query("SELECT * FROM subject ORDER BY subj_name");
+        $sub = $query->result();
+        foreach ($sub as $key2 => $value2) {
+            $display .= "<option value='" . $value2->subj_id . "'>".$value2->subj_code.' - '. $value2->subj_name . "</option>";
+        }
+        $display .= "</select>       
+		                </td>
+		                <td></td>
+		                <td></td>
+		                <td></td>
+		                <td>
+		                	<select name='' placeholder='Select Pre-requisites' style='outline:none;border:none' class=\"form-control js-example-basic-multiple\" multiple=\"multiple\">";
+        $subject = new Subject;
+        $query = $subject->db->query("SELECT * FROM subject");
+        $sub = $query->result();
+        foreach ($sub as $key1 => $value1) {
+            $display .= "<option value='" . $value1->subj_id . "'>" . $value1->subj_code . "</option>";
+        }
+        $display .= "</select>
+		                </td>
+		                <td><a onclick=\"remove_subject($(this).attr('con'),$(this).attr('tr'))\" con='" . str_replace(' ', '', $con) . "' tr='" . $tr . "' title='remove' href=\"javascript:;\"><i class='fa fa-times'></i></a></td>
+		            </tr>";
 
         echo $display;
     }

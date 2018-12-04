@@ -14,10 +14,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class subjectCategory extends MY_Model
 {
 
-    const DB_TABLE = 'subject_category';
-    const DB_TABLE_PK = 'sc_id';
+    const DB_TABLE = 'category_subject';
+    const DB_TABLE_PK = 'cs_id';
 
-    public $sc_id;
+    public $cs_id;
     public $category_name;
     public $created_at;
     public $updated_at;
