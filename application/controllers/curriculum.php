@@ -240,7 +240,7 @@ class Curriculum extends MY_Controller
         $result = $ys->add($data);
     }
 
-    public function getYearSem()
+    public function getYearSem1()
     {
         $cur_id = $this->input->get('cur_id');
 
@@ -437,7 +437,7 @@ class Curriculum extends MY_Controller
 
 
 
-    public function getYearSem1()
+    public function getYearSem()
     {
         $ys = new Year_sem;
         $curr_subject = new Cur_subject;
