@@ -190,7 +190,7 @@ class Curriculum extends MY_Controller
         }
         $user = $this->userInfo;
 
-        if($user->dep_id != 3) {
+        if($user->dep_id != 4) {
             $display .= '<form id="formSaveRevisionCurriculum" action=" ' . base_url('curriculum/save_revision') . '" method="post">';
             $display .= '<div class="curr-container">';
             $display .= '<input type="hidden" name="cur_id" value="' . $cur_id . '">';
