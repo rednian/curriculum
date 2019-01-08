@@ -234,6 +234,7 @@ class Course extends MY_Controller {
 
         $subject_hour = $this->get_subject_hour(['type' => $event['type'], 'subj_id' => $event['sub_id']]);
 
+
         $schedule = $this->session->userdata('schedule');
 
         $time_end = $this->get_time_end(['hour' => $subject_hour['hour'], 'day' => $event['selected_days'], 'start' => $start]);
@@ -271,10 +272,12 @@ class Course extends MY_Controller {
 
       foreach ($event['selected_days'] as $day_id) {
         $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id);
+
         if ($this->isTimeVacant($data)) {
-          $ss->db->trans_rollback();
-          echo false;
-        } else {
+//            echo 'vacant';
+//          $ss->db->trans_rollback();
+//          echo false;
+//        } else {
           $ssd = new Subj_sched_day();
           $ssd->time_start = $start;
           $ssd->time_end = $time_end;
