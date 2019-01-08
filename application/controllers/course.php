@@ -226,6 +226,8 @@ class Course extends MY_Controller {
 
         $event = $this->input->get('event');
 
+//        dd($event);
+
         $user = $this->userInfo;
 
         $start = date("Y-m-d H:i:s", strtotime($event['start']));
@@ -271,8 +273,10 @@ class Course extends MY_Controller {
       }
 
       foreach ($event['selected_days'] as $day_id) {
+
         $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id);
 
+//        print_r($data);
         if ($this->isTimeVacant($data)) {
 //            echo 'vacant';
 //          $ss->db->trans_rollback();
