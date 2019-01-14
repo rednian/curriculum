@@ -222,11 +222,7 @@ class Course extends MY_Controller {
   {
     if ($this->input->method() == 'get' && array_key_exists('event', $_GET)) {
 
-        $ss_id = null;
-
         $event = $this->input->get('event');
-
-//        dd($event);
 
         $user = $this->userInfo;
 
@@ -235,7 +231,6 @@ class Course extends MY_Controller {
         $room_id = $this->get_room_id($event['room']);
 
         $subject_hour = $this->get_subject_hour(['type' => $event['type'], 'subj_id' => $event['sub_id']]);
-
 
         $schedule = $this->session->userdata('schedule');
 
@@ -246,42 +241,36 @@ class Course extends MY_Controller {
         $this->db->trans_begin();
 
       //find the subject id  and block section id on sched_subj table
-      $sched_subj = new Sched_subj();
-      $result_search = $sched_subj->search(['subj_id'=>$event['sub_id'],'bs_id'=>$event['bs_id']]);
+
+      $schedSubj = SchedSubj::where(['subj_id'=>$event['sub_id'], 'bs_id'=>$event['bs_id']])->first();
 
       //if subject id and block section id not exist save to sched_subj
       //otherwise disregard.
+        $ss_id = null;
 
-      if(empty($result_search)){
-        $ss = new Sched_subj();
-        $ss->year_lvl = $schedule['year'];
-        $ss->sy = $schedule['sy'];
-        $ss->subj_id = $event['sub_id'];
-        $ss->sem = $schedule['semester'];
-        $ss->avs_status = 'active';
-        $ss->bs_id = $event['bs_id'];
-        $ss->save();
+      if(empty($schedSubj)){
 
-        $ss_id = $ss->db->insert_id();
+          $ss = SchedSubj::create([
+              'year_lvl' => $schedule['year'],
+              'sy' => $schedule['sy'],
+              'subj_id' => $event['sub_id'],
+              'sem' => $schedule['semester'],
+              'avs_status' => 'active',
+              'bs_id' => $event['bs_id']
+          ]);
 
+        $ss_id = $ss->ss_id;
       }
       else{
-        foreach($result_search as $result){
-          $ss_id = $result->ss_id;
-          break;
-        }
+          $ss_id = $schedSubj->ss_id;
       }
+
 
       foreach ($event['selected_days'] as $day_id) {
 
-        $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id);
+        $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id, 'sem'=>$schedule['semester']);
 
-//        print_r($data);
-        if ($this->isTimeVacant($data)) {
-//            echo 'vacant';
-//          $ss->db->trans_rollback();
-//          echo false;
-//        } else {
+        if (empty($this->isTimeVacant($data))) {
           $ssd = new Subj_sched_day();
           $ssd->time_start = $start;
           $ssd->time_end = $time_end;
@@ -1256,13 +1245,14 @@ class Course extends MY_Controller {
                     INNER JOIN sched_subj ON subj_sched_day.ss_id = sched_subj.ss_id
                     INNER JOIN sched_day ON subj_sched_day.sd_id = sched_day.sd_id
                     WHERE subj_sched_day.rl_id  =  {$data['room']}
+                    AND sched_subj.sem = '{$data['sem']}'
                     AND sched_day.sd_id = {$data['day']}
                     AND (
                         subj_sched_day.time_start < '{$data['time_end']}'
                         AND subj_sched_day.time_end > '{$data['time_start']}'
                     )");
 
-      return $result = !empty($query->result()) ? true : false;
+      return $query->result();
   }
 
   private function savePlottedSched($sched) 

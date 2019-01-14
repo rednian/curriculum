@@ -36,6 +36,8 @@
     <!-- ================== END BASE CSS STYLE ================== -->
     
     <!-- ================== BEGIN BASE JS ================== -->
+    <script src="<?php echo base_url('assets/vue/vue.js') ?>"></script>
+    <script src="<?php echo base_url('assets/vue/axios.min.js') ?>"></script>
     <script src="<?php echo base_url('assets/plugins/pace/pace.min.js') ?>"></script>
 
     <!-- ================== END BASE JS ================== -->

@@ -125,10 +125,6 @@
                                             Time Start
                                             <select id="select-time-start" class="form-control input-sm"></select>
                                         </div>
-                                        <!--                                <div class="form-group">-->
-                                        <!--                                    Time End-->
-                                        <!--                                    <select class="form-control input-sm" id="select-time-end"></select>-->
-                                        <!--                                </div>-->
                                         <div class="form-group">
                                             <button style="width:100px" class="btn btn-success pull-right"
                                                     id="btn-save">Add
