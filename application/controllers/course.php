@@ -265,7 +265,6 @@ class Course extends MY_Controller {
           $ss_id = $schedSubj->ss_id;
       }
 
-
       foreach ($event['selected_days'] as $day_id) {
 
         $data = array('time_start' => $start, 'time_end' => $time_end, 'room' => $room_id, 'day' => $day_id, 'sem'=>$schedule['semester']);
@@ -282,18 +281,12 @@ class Course extends MY_Controller {
           $ssd->save();
 
           // if vacant update the status to 1, meaning successfully added
-          $bss = new Block_section_subjects();
-          $results = $bss->search(['bs_id' => $event['bs_id'], 'type' => $event['type'], 'subj_id' => $event['sub_id']]);
+            $blockSectionSubject = BlockSectionSubject::where(['bs_id' => $event['bs_id'], 'type' => $event['type'], 'subj_id' => $event['sub_id']])->first();
 
-          if (!empty($results)) {
-            foreach ($results as $result) {
-              $bss_id1 = $result->bss_id;
-            }
-
-            $bss2 = new Block_section_subjects();
-            $bss2->load($bss_id1);
-            $bss2->status = 1;
-            $bss2->save();
+          if (!empty($blockSectionSubject)) {
+              $bss = BlockSectionSubject::find($blockSectionSubject->bss_id);
+              $bss->status = 1;
+              $bss->save();
           }
 
         }

@@ -515,7 +515,9 @@
                 <th>Name</th>
                 <th>Lab Unit</th>
                 <th>Lec Unit</th>
-                <th>Split No.</th>
+                <th>Lec Hour</th>
+                <th>Lab Hour</th>
+<!--                <th>Split No.</th>-->
                 <th>Subject Type</th>
                 <th></th>
               </tr>

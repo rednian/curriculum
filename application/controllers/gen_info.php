@@ -368,10 +368,7 @@ class Gen_info extends MY_Controller
 
   // INSTRUCTOR METHOD //
   public function get_instructor_list(){
-    $instructor = new InstructorModel;
-    $list = $instructor->get_list();
-    // echo json_encode(array('data'=>$list));
-    echo json_encode($list);
+    echo json_encode($this->InstructorModel->get_list());
   }
 
   public function get_instuctor_sched(){

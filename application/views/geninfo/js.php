@@ -613,8 +613,10 @@
             value['subj_name'],
             value['lab_unit'],
             value['lec_unit'],
+            value['lec_hour'],
+            value['lab_hour'],
             value['split'],
-            value['type'],
+            // value['type'],
             "<span class='pull-right'><button onclick='editSubject(" + value['subj_id'] + ")' class=\"btn btn-xs btn-info no-radius\"><i class=\"fa fa-pencil\"></i></button> <button onclick='confirmDeleteSubject(" + value['subj_id'] + ")' class=\"btn btn-xs btn-info no-radius\"><i class=\"fa fa-trash\"></i></button></span>"
           ]);
 

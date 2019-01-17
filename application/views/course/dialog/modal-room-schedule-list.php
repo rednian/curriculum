@@ -177,7 +177,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="confirm()" >Close</button>
+                <button type="button" class="btn btn-default" onclick="confirm()" >Save</button>
             </div>
         </div>
     </div>
