@@ -67,7 +67,6 @@
       }
     });
 
-    
     tblCurriculum = $("#tblCurriculum").dataTable({
       "pageLength": 3,
       "bSort": false,
@@ -304,7 +303,8 @@
     $('#tblCurriculum tbody').on('click', 'tr', function () {
       var tr = $(this).closest('tr').attr("id");
       var sy = $(this).closest('tr').attr("sy");
-      var sem = $(this).closest('tr').attr("sem");
+      // var sem = $(this).closest('tr').attr("sem");
+      var sem = $('#selectSem').val();
       var pl_id = $(this).closest('tr').attr("pl_id");
 
       $("table#tblCurriculum tbody tr td").css({"background": "none", "color": "#777"});
@@ -321,6 +321,7 @@
   });
 
   function loadBlockSection(sem, pl_id, sy, tr) {
+    
     $.ajax({
       url: "<?php echo base_url('instructor/loadBlockSection') ?>",
       data: {pl_id: pl_id, sem: sem, sy: sy, cur_id: tr},
@@ -366,6 +367,7 @@
   function loadOffSection() {
     $.ajax({
       url: "<?php echo base_url('instructor/loadOffSection') ?>",
+      data: {semester: $('select#selectSem').val(), sy: $('#selectSY').val()},
       dataType: "JSON",
       success: function (data) {
         tblOffSectionList.fnClearTable();
@@ -437,12 +439,13 @@
 
       }
     });
+
   }
 
   function loadAllSubject() {
     $.ajax({
       url: "<?php echo base_url('instructor/loadAllSubject') ?>",
-      type: "GET",
+      data: {semester: $('select#selectSem').val(), sy: $('#selectSY').val()},
       dataType: "JSON",
       success: function (data) {
         tblAllCourse.fnClearTable();
@@ -545,7 +548,7 @@
 
         $("#btnGiveIn").attr("disabled", status[stat]);
         $("#panelSubSched #shedContainer").html(shedSTR);
-        console.log(schedToUpdate);
+        // console.log(schedToUpdate);
       },
       error: function () {
 

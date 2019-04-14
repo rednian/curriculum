@@ -9,8 +9,8 @@
     <div class="col-lg-3 text-white">
       <span class="f-s-20">Semester</span>
       <select id="selectSem" class="f-s-20" style="background:none;outline: none;border:none;color:#348fe2">
-        <option value="First Semester">First Semester</option>
-        <option value="Second Semester">Second Semester</option>
+        <option <?php echo $semester = semester('first') ? 'selected': ''; ?> value="First Semester">First Semester</option>
+        <option <?php echo $semester = semester('second') ? 'selected': ''; ?> value="Second Semester">Second Semester</option>
       </select>
     </div>
     <!-- <div class="col-lg-3 col-lg-offset-2">
@@ -24,6 +24,7 @@
       </div>
     </div> -->
   </div>
+  
 
   <div class="row">
     <div class="col-md-3 p-l-0" style="position:relative;">
@@ -244,6 +245,13 @@
 <div class="list-group" id="contextMenu" style="display:none;z-index:1000;width:150px">
   <a href="#" onclick="removeSubjectFromInstructor()" class="list-group-item"><i class="fa fa-copy"></i> Remove subject</a>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('select#selectSem').change(function(){
+
+    });
+  });
+</script>
 
 <style type="text/css">
 

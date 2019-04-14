@@ -16,6 +16,11 @@ class SubjSchedDay extends Eloquent
     public $timestamps = false;
     protected $fillable = ['time_start', 'time_end', 'sd_id', 'ss_id', 'type', 'rl_id', 'user_id'];
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'rl_id');
+    }
+
     public function day()
     {
         return $this->belongsTo(SchedDay::class, 'sd_id');

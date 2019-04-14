@@ -6,8 +6,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 function semester($semester = null)
 {
     $semesters = [
-        'first'=>[6, 7, 8, 9,10],
-        'second'=>[11, 12, 1, 2, 3, 4]
+        'first'=>[8, 9,10, 11, 12],
+        'second'=>[1, 2, 3, 4, 5, 6]
     ];
  return   in_array(date('m'), $semesters[$semester]);
 }

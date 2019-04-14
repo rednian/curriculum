@@ -20,9 +20,11 @@ class Block_section extends MY_Model
     public $pl_id;
     public $cur_id;
 
-    public function getOffSem()
+    public function getOffSem($semester = null, $sy = null)
     {
         $this->db->where('pl_id',0)
+            ->where('semister', $semester)
+            ->where('sy', $sy)
             ->order_by('sec_code');
 
         return $this->get();

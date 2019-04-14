@@ -6,6 +6,7 @@
 
 <div id="content" class="content">
 
+
     <section class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -53,7 +54,7 @@
             </div>
             <div class="row m-t-5">
                 <div class="col-md-12 p-l-0 p-r-5" id="lec-room-container">
-<!--                    --><?php //$this->load->view('course/include/lecture_room'); ?>
+                <?php $this->load->view('course/include/lecture_room'); ?>
                 </div>
             </div>
         </div>
@@ -82,67 +83,65 @@
 </div>
 
 <script>
-
-    // add schedule modal
+   // add schedule modal
     var _current_year_level = $('#yearlvl').val();
     var _current_semester = $('#semister').val();
     var _current_sy = $('#schoolyear').val();
     var _program_id = $('#program').val();
 
-    var _curriculum_year_level = $('#curryearlvl').val();
-    var _curriculum_year_semester = $('#currsemister').val();
-    var _curriculum_revision = $('#currsy').val();
-    var _section_code = $('#sectioncode').val();
-    var lecture_room_id = {};
-    var lab_room_id = {};
+   var _curriculum_year_level = $('#curryearlvl').val();
+   var _curriculum_year_semester = $('#currsemister').val();
+ var _curriculum_revision = $('#currsy').val();
+   var _section_code = $('#sectioncode').val();
+  var lecture_room_id = {};
+  var lab_room_id = {};
 
-    var sy = $('#sy').val();
-    var semester = $('#first-semester').is(':checked') ? 'first semester' : 'second semester';
+var sy = $('#sy').val();
+var semester = $('#first-semester').is(':checked') ? 'first semester' : 'second semester';
 
-    $(document).ready(function () {
+ $(document).ready(function () {
 
-        console.log(semester);
-        displaySchedule();
-        loadRooms();
 
-        //after closing the room modal, table should be cleared.
-        $('#modalSubjectScheduling').on('hidden.bs.modal', function (e) {
-            room_laboratory = room_lecture = [];
+      displaySchedule();
+      loadRooms();
+
+      //after closing the room modal, table should be cleared.
+   $('#modalSubjectScheduling').on('hidden.bs.modal', function (e) {
+       room_laboratory = room_lecture = []
         });
 
     });
 
-    function displaySchedule() {
-        $('form#frm-schedule').submit(function (e) {
-            e.preventDefault();
+function displaySchedule() {
+ $('form#frm-schedule').submit(function (e) {
+  e.preventDefault();
 
 
-           if ($('#first-semester').is(':checked')) {
-            semester = $('#first-semester').val();
-           }
-
-           if ($('#second-semester').is(':checked')) {
-            semester = $('#second-semester').val();
-           }
-
-
-            $.ajax({
-                url:'<?php echo base_url('course/get_plotted_room'); ?>',
-                data: {room_code: room_code, sy: sy, semester: semester},
-                success:function (data) {
-                    loadRooms();
-                }
-            });
-
-        });
+   if ($('#first-semester').is(':checked')) {
+   semester = $('#first-semester').val();
     }
-    
-    function loadRooms() {
-        roomSchedule('div#lec-room-container', 'lecture');
-        roomSchedule('div#lab-room-container', 'laboratory');
-        laboratoryRoom();
-        lectureRoom();
-    }
+
+   if ($('#second-semester').is(':checked')) {
+         semester = $('#second-semester').val();
+       }
+
+          $.ajax({
+              url:'--><?php echo base_url('course/get_plotted_room'); ?>',
+               data: {room_code: room_code, sy: sy, semester: semester},
+               success:function (data) {
+                   loadRooms();
+               }
+           });
+
+       });
+   }
+
+   function loadRooms() {
+       roomSchedule('div#lec-room-container', 'lecture');
+       roomSchedule('div#lab-room-container', 'laboratory');
+       laboratoryRoom();
+       lectureRoom();
+   }
 
     function lectureRoom() {
         roomByType('lecture');

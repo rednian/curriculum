@@ -105,7 +105,7 @@
     });
 
     tblCurriculum = $("#tblCurriculum").dataTable({
-      "pageLength": 3,
+      "pageLength": 4,
       "bSort": false,
       "bLengthChange": false,
       "bInfo": false,

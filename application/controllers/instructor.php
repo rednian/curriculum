@@ -18,6 +18,7 @@ class Instructor extends MY_Controller {
         }
 	}
 
+
   	public function index()
 	{
         $cur = new Curr_codelist();
@@ -120,7 +121,9 @@ class Instructor extends MY_Controller {
 
     	$request = $this->input->get();
 
-    	$list = $block->search(array("cur_id"=>$request['cur_id']));
+    	$list = BlockSection::where('cur_id', $request['cur_id'])->get();
+
+//    	$list = $block->search(array("cur_id"=>$request['cur_id']));
     	if(!empty($list)){
     		echo json_encode($list);
     	}
@@ -131,7 +134,9 @@ class Instructor extends MY_Controller {
 
     public function loadOffSection(){
     	$block = new Block_section;
-    	$sections = $block->getOffSem();
+        $semester = $this->input->get('semester');
+        $sy = $this->input->get('sy');
+    	$sections = $block->getOffSem($semester, $sy);
     	$data = [];
 
     	if(!empty($sections)){

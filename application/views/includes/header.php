@@ -16,28 +16,35 @@
     <link href="<?php echo base_url('assets/plugins/select2/dist/css/select2.css') ?>" rel="stylesheet" />
     <script src="<?php echo base_url('assets/plugins/select2/dist/js/select2.js') ?>"></script>
 
-    <!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"> -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="<?php echo base_url('assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet" />
+
     <link href="<?php echo base_url('assets/css/animate.min.css') ?>" rel="stylesheet" />
+
     <link href="<?php echo base_url('assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/fullcalendar2/fullcalendar.css') ?>" rel="stylesheet" />
+
     <link href="<?php echo base_url('assets/css/style.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/css/style-responsive.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/css/theme/default.css') ?>" rel="stylesheet" id="theme" />
+    
     <link href="<?php echo base_url('assets/plugins/icheck/skins/square/blue.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/plugins/parsley/src/parsley.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap-form-validation/css/formValidation.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap-wizard/css/bwizard.min.css') ?>" rel="stylesheet" />
     <link href="<?php echo base_url('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" />
 
-    <!-- ================== END BASE CSS STYLE ================== -->
+    <!-- ================== END BASE CSS STYLE ================== <--></-->
     
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="<?php echo base_url('assets/vue/vue.js') ?>"></script>
     <script src="<?php echo base_url('assets/vue/axios.min.js') ?>"></script>
+
+    <script src="<?php echo base_url('assets/vue/vuetify/vuetify.js') ?>"></script>
+    <link href="<?php echo base_url('assets/vue/vuetify/vuetify.min.css') ?>" rel="stylesheet" />
     <script src="<?php echo base_url('assets/plugins/pace/pace.min.js') ?>"></script>
 
     <!-- ================== END BASE JS ================== -->

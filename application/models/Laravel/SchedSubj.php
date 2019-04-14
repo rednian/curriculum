@@ -14,4 +14,14 @@ class SchedSubj extends Eloquent
     protected $primaryKey = 'ss_id';
     public $timestamps = false;
     protected $fillable = ['year_lvl', 'sy', 'sem', 'subj_id', 'avs_status', 'employee_id', 'bs_id', 'temp_id', 'key'];
+
+    public function subjSchedDay()
+    {
+        return $this->hasMany(SubjSchedDay::class,'ss_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subjects::class, 'subj_id');
+    }
 }
